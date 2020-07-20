@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <ul>
+        {% for questao in questoes %}
+            <a href="{% url 'atualizar_questao' questao.id %}">
+                <li>{{questao.id}} |{{questao.enunciado}} </li>
+
+                {% if questao.imagem %}
+                    <img src='{{ questao.imagem.url }}' alt="">
+                {% endif%}
+
+            </a>
+        {% endfor %}
+     </ul>
+
+    <a href="/cadastro-questao/">Cadastro</a>
+</body>
+</html>

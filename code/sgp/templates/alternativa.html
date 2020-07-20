@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <ul>
+        {% for alternativa in alternativas %}
+            <a href="{% url 'atualizar_alternativa' alternativa.id %}">
+                <li>{{alternativa.id}} |{{alternativa.alternativa}}</li>
+            </a>
+        {% endfor %}
+     </ul>
+
+    <a href="/cadastro-alternativa/">Cadastro</a>
+</body>
+</html>

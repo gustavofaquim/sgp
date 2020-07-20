@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="submit" method="POST">{% csrf_token %}
+        CPF: <input type="text" name="cpf"><br>
+        Senha: <input type="password" name="senha"><br>
+        <br>
+
+         {%for message in messages%}
+        <p>Erro! {{message}}</p>
+        {%endfor%}
+        <br>
+
+        <input type="submit" value="Entrar">
+    </form>
+
+</body>
+</html>

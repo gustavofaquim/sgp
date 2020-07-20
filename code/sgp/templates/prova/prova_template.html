@@ -1,0 +1,23 @@
+<html>
+<head>
+  <title>{{ obj.observacao}}</title>
+  <style>
+    body {
+      background-color: #f7f7f7;
+    }
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+    .text-right {
+      text-align: right;
+    }
+  </style>
+</head>
+  <body>
+    <h1 class="text-right">Nº {{ obj.id }}</h1>
+    <p><b>Observacao:</b> {{ obj.observacao }}</p>
+    <p><b>Data:</b> {{ obj.date}}</p>
+    <p><b>Descrição:</b> {{ obj.description}}</p>
+  </body>
+</html>

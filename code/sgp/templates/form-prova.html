@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+     <form method="POST">{% csrf_token %}
+            {{ form.as_p }}
+             <input type="submit" value="Cadastrar">
+     </form>
+
+
+
+    {% if questao %}
+        <a href="{% url 'deletar_questao' questao.id %}">Deletar</a>
+    {% endif %}
+
+    {% if prova %}
+        <a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a>
+    {% endif %}
+</body>
+</html>

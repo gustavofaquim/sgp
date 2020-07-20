@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Alternativa</title>
+</head>
+<body>
+       <form method="POST">{% csrf_token %}
+            {{ form_alterntiva.as_p }}
+             <input type="submit" value="Cadastrar">
+        </form>
+        <br>
+
+
+
+    {% if alternativa %}
+        <a href="{% url 'deletar_alternativa' alternativa.id %}">Deletar</a>
+    {% endif %}
+
+
+</body>
+</html>

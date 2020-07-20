@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prova</title>
+</head>
+<body>
+    <ul>
+        {% for prova in provas %}
+            <a href="{% url 'atualizar_prova' prova.id %}">
+                <li>{{prova.observacao}} | {{ prova.professor }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+
+    <a href="/cadastro-prova/">Cadastro</a>
+</body>
+</html>

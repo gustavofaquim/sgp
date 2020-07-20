@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado de Historia</title>
+    <style>
+
+        body{
+            font-size: 18px;
+        }
+
+        .topo img{
+            max-width:25%;
+            max-height:25%;
+            position: relative;
+            left: initial;
+            top: initial;
+        }
+
+        .topo h2{
+            text-align: center;
+        }
+
+        .questoes p{
+            margin-left: 7%;
+        }
+
+        .questoes img{
+            max-width:25%;
+            max-height:25%
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="topo">
+
+        <h2>{{ prova.observacao }}</h2>
+    </div>
+    <div class="questoes">
+        {% load static %}
+
+        <p> Docente: {{ prova.professor.nome }}</p>
+        {% for questoes in prova.questao.all %}
+
+            <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado }}</h4>
+             {% if questoes.imagem %}
+            <img src="{{ questoes.imagem.url }}">
+             {% endif%}
+
+            {% for alternativas in questoes.alternativas.all %}
+                <p> ( ) {{ alternativas.alternativa }} </p>
+            {% endfor %}
+
+        {% endfor %}
+    </div>
+</body>
+</html>

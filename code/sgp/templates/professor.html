@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        {% for professor in professores %}
+            <a href="{% url 'atualizar_professor' professor.cpf %}">
+                <li>{{professor.cpf}} |{{ professor.nome }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+
+    <a href="/cadastro-professor/">Cadastro</a>
+
+</body>
+</html>
