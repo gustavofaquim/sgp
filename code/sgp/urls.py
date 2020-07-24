@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from core import views
@@ -32,6 +32,7 @@ urlpatterns = [
     path('deletar_questao/<int:id>', views.deletar_prov, name='deletar_prova'),
     path('questao_alterntiva/<int:questao_id>', views.questao_alterntiva),
     path('questao_alterntivas/', views.questao_alterntivas),
+    path('tinymce/', include('tinymce.urls')),
     #path('', views.index)
     path('',admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 class Disciplina(models.Model):
     disciplina = models.CharField(max_length=250)
@@ -39,7 +40,7 @@ class Professor(models.Model):
 
 
 class Questao(models.Model):
-    enunciado = models.TextField()
+    enunciado = HTMLField()
     imagem = models.ImageField(upload_to="questao", null=True, blank=True)
     area = models.ForeignKey(Area, on_delete=models.PROTECT, default="")
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default="")
@@ -56,7 +57,7 @@ class Questao(models.Model):
 class Alternativa(models.Model):
     alternativa = models.TextField()
     correta = models.BooleanField(default="False")
-    imagem = models.ImageField(upload_to="imagens/questao", null=True, blank=True)
+    imagem = models.ImageField(upload_to="alternativa", null=True, blank=True)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name='alternativas')
 
     def __str__(self):
@@ -87,9 +88,12 @@ class Configuracoes(models.Model):
         db_table = "configuracoes"
 
 class Prova(models.Model):
-    configuracoes = models.ForeignKey(Configuracoes, on_delete=models.PROTECT, default="")
+    instituicao = models.CharField(max_length=300)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name="professor")
+    data = models.DateField()
     observacao = models.TextField()
+    imagem = models.ImageField(upload_to="prova", null=True, blank=True)
+    configuracoes = models.ForeignKey(Configuracoes, on_delete=models.PROTECT, default="")
     questao = models.ManyToManyField(Questao)
     #questao = models.ForeignKey(Questao, on_delete=models.PROTECT, default="")
 

@@ -13,8 +13,8 @@ from django_object_actions import DjangoObjectActions
 class AlternativaAdmin(admin.StackedInline):
     model = Alternativa
     list_filter = ['correta', 'questao']
-    max_num = 4
-    extra = 6
+    max_num = 5
+    extra = 8
 
 class QuestaoAdmin(admin.ModelAdmin):
     inlines = [AlternativaAdmin]
@@ -57,6 +57,7 @@ admin.site.register(Questao, QuestaoAdmin)
 admin.site.register(Alternativa)
 admin.site.register(Disciplina)
 admin.site.register(Professor)
+admin.site.register(Area)
 admin.site.register(Prova, ProvaAdmin)
 '''
 AQUI TAVA TUDO BEM

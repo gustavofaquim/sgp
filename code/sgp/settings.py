@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_object_actions',
+    'tinymce',
     'core',
     'sgp',
 ]
@@ -80,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sgp',
-        'USER': 'django',
+        'USER': 'root',
         'PASSWORD': '123456789',
         'HOST': 'localhost',
         'PORT': '3306',
