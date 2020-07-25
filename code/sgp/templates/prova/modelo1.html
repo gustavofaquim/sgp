@@ -45,9 +45,9 @@
         <p> Docente: {{ prova.professor.nome }}</p>
         {% for questoes in prova.questao.all %}
 
-            <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado }}</h4>
+            <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado | safe }}</h4>
              {% if questoes.imagem %}
-            <img src="{{ questoes.imagem.url }}">
+            <img src="{{ questoes.imagem.url | safe }}">
              {% endif%}
 
             {% for alternativas in questoes.alternativas.all %}

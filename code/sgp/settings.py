@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_object_actions',
-    'tinymce',
+    'ckeditor',
+    'ckeditor_uploader',
     'core',
     'sgp',
 ]
@@ -125,3 +126,48 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/imagens/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'imagens')
+
+
+####################################
+    ##  CKEDITOR CONFIGURATION ##
+####################################
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+{'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+        {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+        ['cmsplugins', 'cmswidget'],
+        ['Maximize', ''],
+        ['Source', '-', 'ShowBlocks'],
+        '/',
+        {'name': 'basicstyles',
+         'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting',
+                   'RemoveFormat']},
+        {'name': 'paragraph',
+         'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                   'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+        {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+        {'name': 'insert', 'items': ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
+        '/',
+        {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+        {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+        ]
+    },
+}
+
+
+'''
+    CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
+'''
+
+###################################

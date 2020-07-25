@@ -6,7 +6,7 @@
 </head>
 <body>
         <form method="POST">{% csrf_token %}
-            {{ form.as_p }}
+            {{ form.as_p | safe }}
 
              <input type="submit" value="Cadastrar">
         </form>

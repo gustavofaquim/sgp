@@ -1,5 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 class Disciplina(models.Model):
     disciplina = models.CharField(max_length=250)
@@ -40,7 +42,8 @@ class Professor(models.Model):
 
 
 class Questao(models.Model):
-    enunciado = HTMLField()
+    #enunciado = HTMLField()
+    enunciado  = RichTextUploadingField ()
     imagem = models.ImageField(upload_to="questao", null=True, blank=True)
     area = models.ForeignKey(Area, on_delete=models.PROTECT, default="")
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default="")

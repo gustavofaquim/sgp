@@ -32,7 +32,8 @@ urlpatterns = [
     path('deletar_questao/<int:id>', views.deletar_prov, name='deletar_prova'),
     path('questao_alterntiva/<int:questao_id>', views.questao_alterntiva),
     path('questao_alterntivas/', views.questao_alterntivas),
-    path('tinymce/', include('tinymce.urls')),
+    path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    #path('tinymce/', include('tinymce.urls')),
     #path('', views.index)
     path('',admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

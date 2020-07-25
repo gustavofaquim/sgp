@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from django_object_actions import DjangoObjectActions
-
 #tabularinline ou stackedinline
 
 class AlternativaAdmin(admin.StackedInline):
