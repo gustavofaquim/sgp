@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_object_actions',
     'ckeditor',
     'ckeditor_uploader',
+    'tinymce',
     'core',
     'sgp',
 ]
@@ -129,7 +130,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'imagens')
 
 
 ####################################
-    ##  CKEDITOR CONFIGURATION ##
+    ##  CKEDITOR  ##
 ####################################
 
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
@@ -140,34 +141,21 @@ CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': [
-{'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-        {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-        ['cmsplugins', 'cmswidget'],
-        ['Maximize', ''],
-        ['Source', '-', 'ShowBlocks'],
+        #{'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+        #{'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+        #['cmsplugins', 'cmswidget'],
+        #['Maximize', ''],
         '/',
-        {'name': 'basicstyles',
-         'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting',
-                   'RemoveFormat']},
-        {'name': 'paragraph',
-         'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
-                   'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
-        {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
-        {'name': 'insert', 'items': ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
+        #{'name': 'basicstyles','items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting','RemoveFormat', 'Image']},
+        {'name': 'basicstyles','items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+        {'name': 'paragraph','items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+        #{'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+        {'name': 'insert', 'items': [ 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
         '/',
         {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
         {'name': 'colors', 'items': ['TextColor', 'BGColor']},
         ]
     },
 }
-
-
-'''
-    CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': None,
-    },
-}
-'''
 
 ###################################

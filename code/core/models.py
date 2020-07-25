@@ -42,6 +42,7 @@ class Professor(models.Model):
 
 
 class Questao(models.Model):
+    #enunciado = models.TextField()
     #enunciado = HTMLField()
     enunciado  = RichTextUploadingField ()
     imagem = models.ImageField(upload_to="questao", null=True, blank=True)
@@ -106,4 +107,3 @@ class Prova(models.Model):
     class Meta:
         db_table = "prova"
         verbose_name_plural = "Avaliações"
-

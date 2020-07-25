@@ -1,6 +1,9 @@
 from itertools import count
-
+from django.shortcuts import render
+from io import BytesIO
 from django.contrib import admin
+from weasyprint.pdf import pdf_format, PDFFile
+
 from .models import *
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
@@ -30,7 +33,7 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
     def generate_pdf(self, request, prova):
 
 
-        print(prova.questao.get(id=2).imagem)
+        #print(prova.questao.get(id=2).imagem)
 
         html_string = render_to_string('prova/modelo1.html', {'prova': prova})
         html = HTML(string=html_string,base_url=request.build_absolute_uri('/'))
@@ -44,10 +47,21 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
 
         return response
 
+
+    def vizualiar_prova(self, request, prova):
+       print("Ola mundo")
+
+       return render(request,'prova/modelo2.html', {'prova': prova})
+
+
+
+    vizualiar_prova.label = 'Ver Prova'
+
     generate_pdf.label = 'Gerar PDF'
+
     generate_pdf.short_description = 'Clique para gerar o PDF da prova'
 
-    change_actions = ('generate_pdf',)
+    change_actions = ('generate_pdf','vizualiar_prova')
 
 
 
@@ -58,25 +72,3 @@ admin.site.register(Disciplina)
 admin.site.register(Professor)
 admin.site.register(Area)
 admin.site.register(Prova, ProvaAdmin)
-'''
-AQUI TAVA TUDO BEM
-
-@admin.register(Disciplina)
-class DisciplinaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'disciplina']
-
-@admin.register(Professor)
-class ProfessorAdmin(admin.ModelAdmin):
-    list_display = ['cpf', 'professor', 'email']
-
-@admin.register(Questao)
-class QuestaoAdmin(admin.ModelAdmin):
-    list_dsplay = ['enunciado','imagem','area','disciplina']
-
-@admin.register(Alternativa)
-class AlternativaAdmin(admin.ModelAdmin):
-    list_display = ['alternativa', 'correta', 'imagem', 'questao']
-
-@admin.register(Prova)
-class ProvaAdmin(admin.ModelAdmin):
-    list_display = ['configuracoes', 'observacao', 'questao'] '''
