@@ -1,3 +1,5 @@
+import json
+from django.core import serializers
 from itertools import count
 from django.shortcuts import render
 from io import BytesIO
@@ -50,8 +52,8 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
 
     def vizualiar_prova(self, request, prova):
        print("Ola mundo")
-
-       return render(request,'prova/modelo2.html', {'prova': prova})
+       tamanho = (prova.configuracoes.tamanho)
+       return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho)})
 
 
 
@@ -71,4 +73,5 @@ admin.site.register(Alternativa)
 admin.site.register(Disciplina)
 admin.site.register(Professor)
 admin.site.register(Area)
+admin.site.register(Configuracoes)
 admin.site.register(Prova, ProvaAdmin)

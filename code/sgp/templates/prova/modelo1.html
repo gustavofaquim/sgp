@@ -1,25 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulado de Historia</title>
+    <title></title>
     <style>
-
-        body{
-            font-size: 18px;
+        .cabecalho{
+          border: 1px solid red;
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          justify-content: center;
         }
 
-        .topo img{
-            max-width:25%;
-            max-height:25%;
-            position: relative;
-            left: initial;
-            top: initial;
+        .cabecalho p {margin: 0;}
+        #logo{
+            border: 1px solid;
+            margin-right: 10px;
+
+        }
+        #logo img{
+            max-width: 150px;
+            margin: auto;
         }
 
-        .topo h2{
-            text-align: center;
+        .cabecalho h2{
+            text-align: jus;
         }
 
         .questoes p{
@@ -30,19 +37,35 @@
             max-width:25%;
             max-height:25%
         }
-        
-
     </style>
 </head>
-<body>
-    <div class="topo">
+<body id="prova">
+    <header class="cabecalho">
+      <div id="logo">
 
-        <h2>{{ prova.observacao }}</h2>
-    </div>
+          {% if prova.imagem %}
+              <img src="{{ prova.imagem.url | safe }}">
+          {% endif %}
+      </div>
+      <div id="texto">
+          <p>{{prova.instituicao}}</p>
+          <p>{{prova.turma}}</p>
+          <p>Disciplina: {{prova.disciplina}}</p>
+          <p>Docente: {{prova.professor.nome }}</p>
+          <p>Discente:</p>
+          <p>Data: {{prova.data}}</p>
+          <p>Valor: {{prova.valor}}     Nota: </p>
+      </div>
+      <div class="observacao">
+        {% if prova.observacao %}
+            <p>Observação: {{ prova.observacao }}</p>
+        {% endif%}
+      </div>
+
+    </header>
+
     <div class="questoes">
-        {% load static %}
-
-        <p> Docente: {{ prova.professor.nome }}</p>
+        {{tamanho}}
         {% for questoes in prova.questao.all %}
 
             <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado | safe }}</h4>
@@ -56,5 +79,14 @@
 
         {% endfor %}
     </div>
+
+    <footer class="rodape">
+    </footer>
+
+    <script type="text/javascript">
+      var tamanho = "{{tamanho | escapejs}}" + "pt";
+      alert(tamanho);
+      document.getElementById("prova").style.fontSize = tamanho;
+    </script>
 </body>
 </html>

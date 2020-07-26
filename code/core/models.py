@@ -83,7 +83,7 @@ class Configuracoes(models.Model):
         ('TH','Tahoma')
     )
     tipo_fonte = models.CharField(max_length=2, choices= TIPO_FONTE)
-    tamanho = models.DecimalField(max_digits=4, decimal_places=1)
+    tamanho = models.IntegerField()
 
     def __str__(self):
         return str(self.cabecalho)
@@ -93,10 +93,11 @@ class Configuracoes(models.Model):
 
 class Prova(models.Model):
     instituicao = models.CharField(max_length=300)
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name="professor")
     data = models.DateField()
+    valor = models.FloatField(null=True, blank=True)
     observacao = models.TextField()
     imagem = models.ImageField(upload_to="prova", null=True, blank=True)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name="professor")
     configuracoes = models.ForeignKey(Configuracoes, on_delete=models.PROTECT, default="")
     questao = models.ManyToManyField(Questao)
     #questao = models.ForeignKey(Questao, on_delete=models.PROTECT, default="")
