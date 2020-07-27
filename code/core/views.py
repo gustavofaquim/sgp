@@ -122,22 +122,8 @@ def deletar_alter(request,id):
 
 
 #Crud questao
+
 def cadastro_questao(request):
-    form = QuestaoForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('/lista_questao/')
-
-    return render(request, 'form-questao.html', {'form': form})
-
-
-
-def cadastro_questoes(request):
-    print("oi")
-
-
-def inserir(request):
     if request.method == "GET":
         form = QuestaoForm()
         form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=5)
@@ -167,7 +153,7 @@ def inserir(request):
             return render(request,'form-questao.html', context)
 
 
-def editar(request,questao_id):
+def atualizar_quest(request,questao_id):
     if request.method == "GET":
         objeto = Questao.objects.filter(id=questao_id).first()
 
@@ -175,7 +161,7 @@ def editar(request,questao_id):
             return redirect(reverse('questao.html'))
 
         form = QuestaoForm(instance=objeto)
-        form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=2)
+        form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=0)
         form_alternativa = form_alternativa_factory(instance=objeto)
 
         context = {
@@ -210,19 +196,6 @@ def editar(request,questao_id):
 def lista_questao(request):
     questoes = Questao.objects.all()
     return render(request, 'questao.html', {'questoes': questoes})
-
-
-def atualizar_quest(request,id):
-    questao = Questao.objects.get(id=id)
-    form = QuestaoForm(request.POST or None, instance=questao)
-
-    if form.is_valid():
-
-        #instance = form.save(commit=False)
-        form.save()
-        return redirect('/lista_questao/')
-
-    return render(request, 'form-questao.html', {'form': form, 'questao': questao})
 
 def deletar_quest(request,id):
     questao = Questao.objects.get(id=id)
