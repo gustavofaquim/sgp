@@ -2,9 +2,10 @@
 
 
 {% block conteudo %}
-    <form method="POST">{% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p | safe }}
 
+        <img src="{{ form.imagem.url }}">
         {{form_alternativa.management_form }}
 
         {% for fa in form_alternativa %}

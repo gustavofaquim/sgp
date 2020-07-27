@@ -1,14 +1,19 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.core.files.storage import FileSystemStorage
 from django.forms import inlineformset_factory, modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.http import FileResponse
 import io
+from weasyprint import HTML
+from django.http import HttpResponse
+
 from .models import *
 from .form import *
 
@@ -136,9 +141,9 @@ def cadastro_questao(request):
         return render(request, "form-questao.html", context)
 
     elif request.method == "POST":
-        form = QuestaoForm(request.POST)
+        form = QuestaoForm(request.POST,request.FILES)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
-        form_alternativa = form_alternativa_factory(request.POST)
+        form_alternativa = form_alternativa_factory(request.POST,request.FILES)
 
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save()
@@ -226,6 +231,23 @@ def atualizar_prov(request,id):
         return redirect ('/lista_prova/')
 
     return render(request, 'form-prova.html', {'form': form, 'prova': prova})
+
+def gerar_prova(request, id):
+    # print(prova.questao.get(id=2).imagem)
+    prova = Prova.objects.get(id=id)
+    html_string = render_to_string('prova/modelo1.html', {'prova': prova})
+    print(prova.professor.nome)
+    html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
+    html.write_pdf(target='/tmp/{}.pdf'.format(prova));
+
+    fs = FileSystemStorage('/tmp')
+    with fs.open('{}.pdf'.format(prova)) as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="{}.pdf"'.format(prova)
+        return response
+
+    return response
+
 
 def deletar_prov(request,id):
     prova = Prova.objects.get(id=id)

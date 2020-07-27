@@ -3,7 +3,7 @@ from .models import Professor
 from .models import Alternativa
 from .models import Questao
 from .models import Prova
-
+from django.core.files.uploadedfile import SimpleUploadedFile
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
@@ -16,6 +16,7 @@ class AlternativaForm(forms.ModelForm):
     class Meta:
         model = Alternativa
         fields = '__all__'
+        imagem = forms.ImageField()
 
 
 class QuestaoForm(forms.ModelForm):
@@ -24,7 +25,9 @@ class QuestaoForm(forms.ModelForm):
         fields = '__all__'
 
 
+
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
         fields = ['professor', 'observacao', 'questao', 'configuracoes']
+

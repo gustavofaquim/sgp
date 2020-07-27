@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "_layouts/base.html" %}
 
+{% block title %}Página Inicial{% endblock %}
+
+{% block conteudo %}
      <form method="POST">{% csrf_token %}
             {{ form.as_p }}
              <input type="submit" value="Cadastrar">
@@ -19,6 +16,6 @@
 
     {% if prova %}
         <a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a>
+        <a href="{% url 'gerar_prova' prova%}">Gerar prova</a>
     {% endif %}
-</body>
-</html>
+{% endblock %}

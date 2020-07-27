@@ -62,7 +62,7 @@ class Questao(models.Model):
 class Alternativa(models.Model):
     alternativa = models.TextField()
     correta = models.BooleanField(default="False")
-    imagem = models.ImageField(upload_to="alternativa", null=True, blank=True)
+    imagem = models.ImageField(upload_to="alternativa/", null=True, blank=True)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name='alternativas')
 
     def __str__(self):

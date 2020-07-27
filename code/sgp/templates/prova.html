@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prova</title>
-</head>
-<body>
+{% extends "_layouts/base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block conteudo %}
     <ul>
         {% for prova in provas %}
             <a href="{% url 'atualizar_prova' prova.id %}">
@@ -14,5 +12,4 @@
     </ul>
 
     <a href="/cadastro-prova/">Cadastro</a>
-</body>
-</html>
+{% endblock %}

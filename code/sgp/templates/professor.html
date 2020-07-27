@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "_layouts/base.html" %}
+
+{% block title %}Professor{% endblock %}
+
+{% block conteudo %}
     <ul>
         {% for professor in professores %}
             <a href="{% url 'atualizar_professor' professor.cpf %}">
-                <li>{{professor.cpf}} |{{ professor.nome }}
-                    <img src="{% static 'professor.foto' %}" alt="">
-                </li>
+                <li>{{professor.cpf}} |{{ professor.nome }}</li>
             </a>
         {% endfor %}
     </ul>
 
     <a href="/cadastro-professor/">Cadastro</a>
-
-</body>
-</html>
+{% endblock %}

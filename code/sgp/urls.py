@@ -4,6 +4,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from core import views
+from django.contrib.staticfiles.urls import static,staticfiles_urlpatterns
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +27,7 @@ urlpatterns = [
     path('lista_questao/', views.lista_questao, name='lista_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),
+    path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
     #Crud prova
     path('cadastro-prova/', views.cadastro_prova),
     path('lista_prova/', views.lista_prova),
@@ -35,4 +38,8 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     #path(r'^tinymce/', include('tinymce.urls')),
     path('', views.index, name='index'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
