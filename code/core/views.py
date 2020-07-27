@@ -173,7 +173,7 @@ def atualizar_quest(request,questao_id):
     elif request.method == "POST":
         objeto = Questao.objects.filter(id=questao_id).first()
         if objeto is None:
-            return redirect(reverse('listar-questao'))
+            return redirect(reverse('lista_questao'))
 
         form = QuestaoForm(request.POST, instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
@@ -183,7 +183,7 @@ def atualizar_quest(request,questao_id):
             questao = form.save()
             form_alternativa.instance = questao
             form_alternativa.save()
-            return redirect(reverse('listar-questao'))
+            return redirect(reverse('lista_questao'))
 
         else:
             context = {

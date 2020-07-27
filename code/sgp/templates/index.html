@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
+{% extends "_layouts/base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block conteudo %}
         <ul>
             <li><a href="/lista_professores/">Lista Professores</a></li>
             <br>
@@ -15,7 +13,5 @@
             <li><a href="/lista_prova/">Lista Prova</a></li>
             <br>
 
-
+{% endblock %}
         </ul>
-</body>
-</html>

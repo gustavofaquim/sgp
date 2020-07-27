@@ -30,7 +30,7 @@ class Professor(models.Model):
     email = models.EmailField()
     senha = models.CharField(max_length=10)
     nascimento = models.DateField(null=True, blank=True, verbose_name='Data de Nascimento')
-    foto = models.ImageField(upload_to="imgs/ft_prof", null=True, blank=True)
+    foto = models.ImageField(upload_to="ft_prof", null=True, blank=True)
     disciplina = models.ManyToManyField(Disciplina)
 
     def __str__(self):
