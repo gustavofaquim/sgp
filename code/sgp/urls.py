@@ -22,8 +22,10 @@ urlpatterns = [
     path('deletar_alternativa/<int:id>/', views.deletar_alter, name='deletar_alternativa'),
     #Crud questao
     path('cadastro-questao/', views.cadastro_questao),
-    path('lista_questao/', views.lista_questao),
+    path('cadastro-questoes/', views.inserir),
+    path('lista_questao/', views.lista_questao, name='listar-questao'),
     path('atualizar_questao/<int:id>', views.atualizar_quest, name='atualizar_questao'),
+    path('atualizar_questoes/<int:questao_id>', views.editar, name='atualizar_questoes'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),
     #Crud prova
     path('cadastro-prova/', views.cadastro_prova),

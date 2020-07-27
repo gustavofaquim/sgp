@@ -52,8 +52,9 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
 
     def vizualiar_prova(self, request, prova):
        print("Ola mundo")
-       tamanho = (prova.configuracoes.tamanho)
-       return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho)})
+       tamanho = prova.configuracoes.tamanho
+       fonte = prova.configuracoes.tipo_fonte
+       return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
 
 
 

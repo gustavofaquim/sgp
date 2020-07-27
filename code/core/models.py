@@ -1,6 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.auth.models import User
 
 
 class Disciplina(models.Model):

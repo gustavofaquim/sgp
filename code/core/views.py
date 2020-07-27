@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import inlineformset_factory, modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.http import FileResponse
@@ -129,6 +130,81 @@ def cadastro_questao(request):
         return redirect('/lista_questao/')
 
     return render(request, 'form-questao.html', {'form': form})
+
+
+
+def cadastro_questoes(request):
+    print("oi")
+
+
+def inserir(request):
+    if request.method == "GET":
+        form = QuestaoForm()
+        form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=5)
+        form_alternativa = form_alternativa_factory()
+
+        context = {
+           'form': form,
+           'form_alternativa': form_alternativa,
+        }
+        return render(request, "form-questao.html", context)
+
+    elif request.method == "POST":
+        form = QuestaoForm(request.POST)
+        form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
+        form_alternativa = form_alternativa_factory(request.POST)
+
+        if form.is_valid() and form_alternativa.is_valid():
+            questao = form.save()
+            form_alternativa.instance = questao
+            form_alternativa.save()
+            return redirect(reverse('questao.html'))
+        else:
+            context = {
+                'form': form,
+                'form_telefone': form_alternativa,
+            }
+            return render(request,'form-questao.html', context)
+
+
+def editar(request,questao_id):
+    if request.method == "GET":
+        objeto = Questao.objects.filter(id=questao_id).first()
+
+        if objeto is None:
+            return redirect(reverse('questao.html'))
+
+        form = QuestaoForm(instance=objeto)
+        form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=2)
+        form_alternativa = form_alternativa_factory(instance=objeto)
+
+        context = {
+            'form': form,
+            'form_alternativa': form_alternativa,
+        }
+        return render(request, "form-questao.html", context)
+
+    elif request.method == "POST":
+        objeto = Questao.objects.filter(id=questao_id).first()
+        if objeto is None:
+            return redirect(reverse('listar-questao'))
+
+        form = QuestaoForm(request.POST, instance=objeto)
+        form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
+        form_alternativa = form_alternativa_factory(request.POST, instance=objeto)
+
+        if form.is_valid() and form_alternativa.is_valid():
+            questao = form.save()
+            form_alternativa.instance = questao
+            form_alternativa.save()
+            return redirect(reverse('listar-questao'))
+
+        else:
+            context = {
+                'form': form,
+                'form_alternativa': form_alternativa,
+            }
+            return render(request, "form-questao.html", context)
 
 
 def lista_questao(request):

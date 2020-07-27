@@ -85,8 +85,10 @@
 
     <script type="text/javascript">
       var tamanho = "{{tamanho | escapejs}}" + "pt";
-      alert(tamanho);
+      var fonte = "{{fonte | escapejs}}"
       document.getElementById("prova").style.fontSize = tamanho;
+      alert(fonte);
+      document.getElementById("prova").style.fontFamily = fonte;
     </script>
 </body>
 </html>

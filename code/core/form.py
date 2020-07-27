@@ -15,13 +15,13 @@ class ProfessorForm(forms.ModelForm):
 class AlternativaForm(forms.ModelForm):
     class Meta:
         model = Alternativa
-        fields = ['alternativa', 'correta']
+        fields = '__all__'
 
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = ['enunciado','area', 'disciplina', 'professor','imagem']
+        fields = '__all__'
 
 
 class ProvaForm(forms.ModelForm):
