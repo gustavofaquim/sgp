@@ -6,14 +6,20 @@
 </head>
 <body>
         <form method="POST">{% csrf_token %}
-            {{ form.as_p }}
+            {{ form.as_p | safe }}
+
+
+            {{form_alternativa.management_form }}
+
+            {% for fa in form_alternativa %}
+            <hr>
+                {{ fa }}
+            {% endfor %}
+
 
              <input type="submit" value="Cadastrar">
         </form>
         <br>
-
-
-
-
+        <script src="{%%}"></script>
 </body>
 </html>

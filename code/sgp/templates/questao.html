@@ -5,18 +5,29 @@
     <title>Title</title>
 </head>
 <body>
-        <ul>
+
+        <table>
         {% for questao in questoes %}
-            <a href="{% url 'atualizar_questao' questao.id %}">
-                <li>{{questao.id}} |{{questao.enunciado}} </li>
+            <tr>
+                <td>
+                    <a href="{% url 'atualizar_questao' questao.id %}">
+                    {{questao.id}} |{{questao.enunciado}}
+                    </a>
 
-                {% if questao.imagem %}
-                    <img src='{{ questao.imagem.url }}' alt="">
-                {% endif%}
+                <ul>
+                    {% for a in questao.alternativas.all %}
+                    <li>{{a.alternativa}}</li>
+                    {% endfor %}
+                </ul>
+                <td>
 
-            </a>
+                <td>
+                <a href="{% url 'atualizar_questoes' questao.id %}">Atualizar</a>
+                </td>
+
         {% endfor %}
-     </ul>
+            </tr>
+        </table>
 
     <a href="/cadastro-questao/">Cadastro</a>
 </body>

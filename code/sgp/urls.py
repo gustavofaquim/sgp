@@ -6,7 +6,7 @@ from django.conf import settings
 from core import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     #path('login/', views.user_login),
     #path('login/submit', views.submit_login),
     #path('logout/', views.user_logout),
@@ -22,8 +22,10 @@ urlpatterns = [
     path('deletar_alternativa/<int:id>/', views.deletar_alter, name='deletar_alternativa'),
     #Crud questao
     path('cadastro-questao/', views.cadastro_questao),
-    path('lista_questao/', views.lista_questao),
+    path('cadastro-questoes/', views.inserir),
+    path('lista_questao/', views.lista_questao, name='listar-questao'),
     path('atualizar_questao/<int:id>', views.atualizar_quest, name='atualizar_questao'),
+    path('atualizar_questoes/<int:questao_id>', views.editar, name='atualizar_questoes'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),
     #Crud prova
     path('cadastro-prova/', views.cadastro_prova),
@@ -32,7 +34,8 @@ urlpatterns = [
     path('deletar_questao/<int:id>', views.deletar_prov, name='deletar_prova'),
     path('questao_alterntiva/<int:questao_id>', views.questao_alterntiva),
     path('questao_alterntivas/', views.questao_alterntivas),
-    path('tinymce/', include('tinymce.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    #path(r'^tinymce/', include('tinymce.urls')),
     #path('', views.index)
     path('',admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
