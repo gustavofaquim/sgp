@@ -7,13 +7,11 @@
     <title></title>
     <style>
         .cabecalho{
-          border: 1px solid red;
           display: flex;
           align-items: center;
           flex-direction: row;
           justify-content: center;
         }
-
         .cabecalho p {margin: 0;}
         #logo{
             border: 1px solid;
@@ -42,7 +40,6 @@
 <body id="prova">
     <header class="cabecalho">
       <div id="logo">
-
           {% if prova.imagem %}
               <img src="{{ prova.imagem.url | safe }}">
           {% endif %}
@@ -56,21 +53,19 @@
           <p>Data: {{prova.data}}</p>
           <p>Valor: {{prova.valor}}     Nota: </p>
       </div>
-      <div class="observacao">
+    </header>
+    <div class="observacao">
         {% if prova.observacao %}
             <p>Observação: {{ prova.observacao }}</p>
         {% endif%}
       </div>
 
-    </header>
-
     <div class="questoes">
-        {{tamanho}}
         {% for questoes in prova.questao.all %}
 
             <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado | safe }}</h4>
              {% if questoes.imagem %}
-                <img src="{{ questoes.imagem.url | safe }}">
+                <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">
              {% endif%}
 
             {% for alternativas in questoes.alternativas.all %}
