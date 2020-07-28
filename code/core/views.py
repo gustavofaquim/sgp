@@ -22,7 +22,23 @@ from .form import *
 def index(request):
     return render(request, 'index.html')
 
-#Curd professor
+
+#CRUD AREA
+def cadastro_area(request):
+    form = AreaForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('/lista_areas/')
+    return render(request, 'forms.html', {'form': form})
+
+#CRUD DISCIPLINAS
+def lista_disciplina(request):
+    disciplina = Disciplina.objects.all()
+    area = Area.objects.all()
+    return (request, 'lista.html', {'disciplina': disciplina, 'area': area})
+
+#Crud professor
 def cadastro_professor(request):
     form = ProfessorForm(request.POST or None)
 

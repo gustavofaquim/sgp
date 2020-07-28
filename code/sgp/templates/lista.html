@@ -1,0 +1,15 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block conteudo %}
+    <ul>
+        {% for area in areas %}
+                <li>{{ areas.area }}</li>
+        {% endfor %}
+        
+        {% for disciplina in disciplinas %}
+                <li>{{ disciplinas.disciplina }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

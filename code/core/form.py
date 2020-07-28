@@ -3,7 +3,14 @@ from .models import Professor
 from .models import Alternativa
 from .models import Questao
 from .models import Prova
+from .models import Area
 from django.core.files.uploadedfile import SimpleUploadedFile
+
+class AreaForm(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = '__all__'
+
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor

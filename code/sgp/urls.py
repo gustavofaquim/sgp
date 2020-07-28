@@ -9,6 +9,9 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #CRUD AREA
+    path('cadastro_area', views.cadastro_area),
+    path('lista_disciplina', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
     path('cadastro-professor/', views.cadastro_professor),
     path('lista_professores/', views.lista_professor),
@@ -32,8 +35,6 @@ urlpatterns = [
     path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
     path('vizualiar_prova/<int:id>', views.vizualiar_prova, name="vizualiar_prova"),
     ####
-    path('questao_alterntiva/<int:questao_id>', views.questao_alterntiva),
-    path('questao_alterntivas/', views.questao_alterntivas),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     #path(r'^tinymce/', include('tinymce.urls')),
     path('', views.index, name='index'),
