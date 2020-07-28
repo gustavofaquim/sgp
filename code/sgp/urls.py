@@ -9,9 +9,6 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.user_login),
-    path('login/submit', views.submit_login),
-    path('logout/', views.user_logout),
     #Crud professor
     path('cadastro-professor/', views.cadastro_professor),
     path('lista_professores/', views.lista_professor),

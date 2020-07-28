@@ -18,33 +18,6 @@ import json
 from .models import *
 from .form import *
 
-def user_login(request):
-    return render(request, 'login.html')
-
-def user_logout(request):
-    print(request.user)
-    logout(request)
-    return redirect('/login/')
-
-@csrf_protect
-def submit_login(request):
-    if request.POST:
-        cpf = request.POST.get('cpf')
-        senha = request.POST.get('senha')
-        print("CPF: " + cpf + " Senha: " + senha)
-        user = authenticate(username=cpf, password=senha)
-        #professor = authenticate(cpf=cpf, senha=senha)
-        if user is not None:
-            login(request, user)
-            return redirect('/')
-        else:
-            messages.error(request, "Usuário e senha inválido. Favor tentar novamente.")
-
-        return redirect('/login/')
-
-@login_required(login_url='/login/')
-def index(request):
-    return render(request, 'index.html')
 
 def index(request):
     return render(request, 'index.html')
@@ -265,59 +238,3 @@ def deletar_prov(request,id):
     prova.delete()
     return redirect('/lista_prova/')
 
-
-
-def questao_alterntiva(request,questao_id):
-    questao = Questao.objects.get(pk=questao_id)
-    # AlternativaFormset = modelformset_factory(Alternativa, fields=("alternativa", "correta"))
-    AlternativaFormset = inlineformset_factory(Questao, Alternativa, fields=('alternativa', 'correta',), can_delete=True, extra=1, max_num=5)
-
-    if request.method == 'POST':
-        # formset = AlternativaFormset(request.POST, queryset=Alternativa.objects.filter(questao_id=questao.id))
-        formset = AlternativaFormset(request.POST, instance=questao)
-        if formset.is_valid():
-            formset.save()
-            # instances = formset.save(commit=False)
-            # for instance in instances:
-            #    instance.questao_id = questao.id
-            #    instance.save()
-
-            return redirect('/lista_alternativas/')
-
-    # formset = AlternativaFormset(queryset=Alternativa.objects.filter(questao_id=questao.id))
-    formset = AlternativaFormset(instance=questao)
-
-    return render(request, 'pag.html', {'formset': formset})
-
-
-
-def questao_alterntivas(request):
-
-    AlternativaFormset = inlineformset_factory(Questao, Alternativa, fields=('alternativa', 'correta',), can_delete=True, extra=1, max_num=5)
-    form_questao = QuestaoForm(request.POST or None)
-
-    if form_questao.is_valid():
-        questao = form_questao.save()
-        nova_questao = Questao.objects.get(id=questao.id)
-
-        if request.method == 'POST':
-            #formset = AlternativaFormset(request.POST, queryset=Alternativa.objects.filter(questao_id=questao.id))
-            formset = AlternativaFormset(request.POST, instance=questao)
-            if formset.is_valid():
-                 instances = formset.save(commit=False)
-                 for instance in instances:
-                    instance.questao_id = questao.id
-                    instance.save()
-
-                #alternativa = formset.cleaned_data['alternativa'] #Pegar campo alternativa do form
-                #correta = formset.cleaned_data['correta']
-                #nova_alternativa = Alternativa(alternativa = alternativa,  correta = correta, questao = nova_questao)
-
-                #nova_alternativa.save()
-
-
-            return redirect('/lista_questao/')
-
-
-
-    return render(request, 'pag.html', {'form': form_questao, 'formset': AlternativaFormset})
