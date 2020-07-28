@@ -9,9 +9,9 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('login/', views.user_login),
-    #path('login/submit', views.submit_login),
-    #path('logout/', views.user_logout),
+    path('login/', views.user_login),
+    path('login/submit', views.submit_login),
+    path('logout/', views.user_logout),
     #Crud professor
     path('cadastro-professor/', views.cadastro_professor),
     path('lista_professores/', views.lista_professor),
@@ -27,12 +27,14 @@ urlpatterns = [
     path('lista_questao/', views.lista_questao, name='lista_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),
-    path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
     #Crud prova
     path('cadastro-prova/', views.cadastro_prova),
     path('lista_prova/', views.lista_prova),
     path('atualizar_prova/<int:id>', views.atualizar_prov, name='atualizar_prova'),
     path('deletar_questao/<int:id>', views.deletar_prov, name='deletar_prova'),
+    path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
+    path('vizualiar_prova/<int:id>', views.vizualiar_prova, name="vizualiar_prova"),
+    ####
     path('questao_alterntiva/<int:questao_id>', views.questao_alterntiva),
     path('questao_alterntivas/', views.questao_alterntivas),
     path('ckeditor/', include('ckeditor_uploader.urls')),

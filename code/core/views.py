@@ -13,11 +13,12 @@ from django.http import FileResponse
 import io
 from weasyprint import HTML
 from django.http import HttpResponse
+import json
 
 from .models import *
 from .form import *
 
-''' def user_login(request):
+def user_login(request):
     return render(request, 'login.html')
 
 def user_logout(request):
@@ -43,7 +44,7 @@ def submit_login(request):
 
 @login_required(login_url='/login/')
 def index(request):
-    return render(request, 'index.html') '''
+    return render(request, 'index.html')
 
 def index(request):
     return render(request, 'index.html')
@@ -233,9 +234,11 @@ def atualizar_prov(request,id):
     return render(request, 'form-prova.html', {'form': form, 'prova': prova})
 
 def gerar_prova(request, id):
-    # print(prova.questao.get(id=2).imagem)
     prova = Prova.objects.get(id=id)
-    html_string = render_to_string('prova/modelo1.html', {'prova': prova})
+    tamanho = prova.configuracoes.tamanho
+    fonte = prova.configuracoes.tipo_fonte
+
+    html_string = render_to_string('prova/modelo1.html', {'prova': prova,'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
     print(prova.professor.nome)
     html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
     html.write_pdf(target='/tmp/{}.pdf'.format(prova));
@@ -247,6 +250,14 @@ def gerar_prova(request, id):
         return response
 
     return response
+
+
+def vizualiar_prova(request, id):
+    print("Ola mundo")
+    prova = Prova.objects.get(id=id)
+    tamanho = prova.configuracoes.tamanho
+    fonte = prova.configuracoes.tipo_fonte
+    return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
 
 
 def deletar_prov(request,id):

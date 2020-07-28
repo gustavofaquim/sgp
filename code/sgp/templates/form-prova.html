@@ -16,6 +16,7 @@
 
     {% if prova %}
         <a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a>
-        <a href="{% url 'gerar_prova' prova%}">Gerar prova</a>
+        <a href="{% url 'gerar_prova' prova.id %}">Gerar prova</a>
+        <a href="{% url 'vizualiar_prova' prova.id %}">Vizualizar prova</a>
     {% endif %}
 {% endblock %}
