@@ -22,7 +22,7 @@ class UserForm(forms.ModelForm):
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = '__all__'
+        fields = ('cpf','nome','email','nascimento','foto','disciplina')
         foto = forms.FileField(
             label='Selecione sua foto'
         )

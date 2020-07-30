@@ -1,6 +1,6 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.core.files.storage import FileSystemStorage
 from django.forms import inlineformset_factory, modelformset_factory
 from django.http import HttpResponseRedirect
@@ -32,11 +32,17 @@ def logar_usuario(request):
         form_login = AuthenticationForm()
     return render(request, 'login.html', {'form_login': form_login})
 
+@login_required(login_url='/login')
+def deslogar_usuario(request):
+    logout(request)
+    return redirect('index')
 
+@login_required(login_url='/login')
 def index(request):
     return render(request, 'index.html')
 
 #CRUD AREA
+@login_required(login_url='/login')
 def cadastro_area(request):
     form = AreaForm(request.POST or None)
 
@@ -46,6 +52,7 @@ def cadastro_area(request):
     return render(request, 'forms.html', {'form': form})
 
 #CRUD DISCIPLINAS
+@login_required(login_url='/login')
 def lista_disciplina(request):
     disciplina = Disciplina.objects.all()
     area = Area.objects.all()
@@ -53,22 +60,38 @@ def lista_disciplina(request):
 
 #Crud professor
 
-
+@login_required(login_url='/login')
 def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         form_professor = ProfessorForm(request.POST)
         if form_usuario.is_valid() and form_professor.is_valid():
-            form_usuario.save()
-            form_professor.save()
+            usuario = form_usuario.save()
+            usuario = User.objects.get(id=usuario.id)
+
+            professor = form_professor.save(commit=False)
+            professor.user = usuario
+
+            professor.save()
             return redirect('index')
     else:
         form_usuario = UserCreationForm()
         form_professor = ProfessorForm()
     return render(request, 'cadastro.html', {'form_usuario': form_usuario, 'form_professor': form_professor})
 
+@login_required(login_url='/login')
+def alterar_senha(request):
+    if request.method == "POST":
+        form_senha = PasswordChangeForm(request.user, request.POST)
+        if form_senha.is_valid():
+            user = form_senha.save()
+            update_session_auth_hash(request, user)
+            return redirect('index')
+    else:
+        form_senha = PasswordChangeForm(request.user)
+    return render(request, 'alterar_senha.html', {'form_senha': form_senha})
 
-
+@login_required(login_url='/login')
 def cadastro_professor(request):
     form = ProfessorForm(request.POST or None)
     if form.is_valid():
@@ -77,12 +100,13 @@ def cadastro_professor(request):
 
     return render(request, 'form-professor.html', {'form': form})
 
-
+@login_required(login_url='/login')
 def lista_professor(request):
     professores = Professor.objects.all()
 
     return render(request, 'professor.html', {'professores': professores})
 
+@login_required(login_url='/login')
 def atualizar_prof(request,cpf):
     professor = Professor.objects.get(cpf=cpf)
     form = ProfessorForm(request.POST or None, instance=professor)
@@ -93,6 +117,7 @@ def atualizar_prof(request,cpf):
 
     return render(request, 'form-professor.html', {'form': form, 'professor': professor})
 
+@login_required(login_url='/login')
 def deletar_prof(request,cpf):
     professor = Professor.objects.get(cpf=cpf)
     professor.delete()
@@ -100,6 +125,7 @@ def deletar_prof(request,cpf):
 
 
 #Crud alternativa
+@login_required(login_url='/login')
 def cadastro_alternativa(request):
 
     form_alternativa = AlternativaForm(request.POST or None)
@@ -124,12 +150,12 @@ def cadastro_alternativa(request):
 
     return render(request, 'form-questao.html', {'form_alternativa': form_alternativa, 'form_questao': form_questao})
 
-
+@login_required(login_url='/login')
 def lista_alternativa(request):
     alternativas = Alternativa.objects.all()
     return render(request, 'alternativa.html', {'alternativas': alternativas})
 
-
+@login_required(login_url='/login')
 def atualizar_alter(request,id):
     alternativa = Alternativa.objects.get(id=id)
     form = AlternativaForm(request.POST or None, instance=alternativa)
@@ -140,6 +166,7 @@ def atualizar_alter(request,id):
 
     return render(request, 'form-alternativa.html', {'form': form, 'alternativa': alternativa})
 
+@login_required(login_url='/login')
 def deletar_alter(request,id):
     alternativa = Alternativa.objects.get(id=id)
     alternativa.delete()
@@ -147,7 +174,7 @@ def deletar_alter(request,id):
 
 
 #Crud questao
-
+@login_required(login_url='/login')
 def cadastro_questao(request):
     if request.method == "GET":
         form = QuestaoForm()
@@ -177,7 +204,7 @@ def cadastro_questao(request):
             }
             return render(request,'form-questao.html', context)
 
-
+@login_required(login_url='/login')
 def atualizar_quest(request,questao_id):
     if request.method == "GET":
         objeto = Questao.objects.filter(id=questao_id).first()
@@ -217,11 +244,12 @@ def atualizar_quest(request,questao_id):
             }
             return render(request, "form-questao.html", context)
 
-
+@login_required(login_url='/login')
 def lista_questao(request):
     questoes = Questao.objects.all()
     return render(request, 'questao.html', {'questoes': questoes})
 
+@login_required(login_url='/login')
 def deletar_quest(request,id):
     questao = Questao.objects.get(id=id)
     questao.delete()
@@ -229,6 +257,7 @@ def deletar_quest(request,id):
 
 
 #Crud prova
+@login_required(login_url='/login')
 def cadastro_prova(request):
     form = ProvaForm(request.POST or None)
 
@@ -238,10 +267,12 @@ def cadastro_prova(request):
 
     return render(request, 'form-prova.html', {'form': form})
 
+@login_required(login_url='/login')
 def lista_prova(request):
     provas = Prova.objects.all()
     return render(request, 'prova.html', {'provas': provas})
 
+@login_required(login_url='/login')
 def atualizar_prov(request,id):
     prova = Prova.objects.get(id=id)
     form = ProvaForm(request.POST or None, instance=prova)
@@ -252,6 +283,7 @@ def atualizar_prov(request,id):
 
     return render(request, 'form-prova.html', {'form': form, 'prova': prova})
 
+@login_required(login_url='/login')
 def gerar_prova(request, id):
     prova = Prova.objects.get(id=id)
     tamanho = prova.configuracoes.tamanho
@@ -271,6 +303,7 @@ def gerar_prova(request, id):
     return response
 
 
+@login_required(login_url='/login')
 def vizualiar_prova(request, id):
     print("Ola mundo")
     prova = Prova.objects.get(id=id)
@@ -278,7 +311,7 @@ def vizualiar_prova(request, id):
     fonte = prova.configuracoes.tipo_fonte
     return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
 
-
+@login_required(login_url='/login')
 def deletar_prov(request,id):
     prova = Prova.objects.get(id=id)
     prova.delete()

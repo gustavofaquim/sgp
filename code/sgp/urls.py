@@ -10,11 +10,13 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',views.logar_usuario, name='login'),
+    path('logout',views.deslogar_usuario, name='logout'),
     #CRUD AREA
     path('cadastro_area/', views.cadastro_area),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
     path('cadastrar_usuario', views.cadastrar_usuario, name="cadastrar_usuario"),
+    path('alterar_senha', views.alterar_senha, name='alterar_senha'),
     path('cadastro-professor/', views.cadastro_professor),
     path('lista_professores/', views.lista_professor, name='lista_professores'),
     path('atualizar_professor/<int:cpf>/', views.atualizar_prof, name='atualizar_professor'),

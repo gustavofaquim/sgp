@@ -30,19 +30,10 @@ class Professor(models.Model):
     cpf = models.BigIntegerField(primary_key=True)
     nome = models.CharField(max_length=350)
     email = models.EmailField()
-    senha = models.CharField(max_length=10)
+    #senha = models.CharField(max_length=10)
     nascimento = models.DateField(null=True, blank=True, verbose_name='Data de Nascimento')
     foto = models.ImageField(upload_to="ft_prof", null=True, blank=True)
     disciplina = models.ManyToManyField(Disciplina)
-
-    @receiver(post_save, sender=User)
-    def create_user_professor(sender, instance, created, **kwargs):
-        if created:
-            Professor.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_professor(sender, instance, **kwargs):
-        instance.professor.save()
 
     def __str__(self):
         return str(self.nome)
