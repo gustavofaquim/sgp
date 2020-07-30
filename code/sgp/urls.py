@@ -9,10 +9,12 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/',views.logar_usuario, name='login'),
     #CRUD AREA
-    path('cadastro_area', views.cadastro_area),
-    path('lista_disciplina', views.lista_disciplina, name='lista_disciplina'),
+    path('cadastro_area/', views.cadastro_area),
+    path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
+    path('cadastrar_usuario', views.cadastrar_usuario, name="cadastrar_usuario"),
     path('cadastro-professor/', views.cadastro_professor),
     path('lista_professores/', views.lista_professor, name='lista_professores'),
     path('atualizar_professor/<int:cpf>/', views.atualizar_prof, name='atualizar_professor'),
@@ -38,6 +40,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     #path(r'^tinymce/', include('tinymce.urls')),
     path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

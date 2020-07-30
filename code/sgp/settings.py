@@ -93,6 +93,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+AUTH_PROFILE_MODULE  =  'sgp.Professor'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

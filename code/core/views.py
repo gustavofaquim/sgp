@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.files.storage import FileSystemStorage
 from django.forms import inlineformset_factory, modelformset_factory
 from django.http import HttpResponseRedirect
@@ -14,14 +14,27 @@ import io
 from weasyprint import HTML
 from django.http import HttpResponse
 import json
-
 from .models import *
 from .form import *
 
 
+def logar_usuario(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        usuario = authenticate(request, username=username, password=password)
+        if usuario is not None:
+            login(request, usuario)
+            return redirect('index')
+        else:
+            form_login = AuthenticationForm()
+    else:
+        form_login = AuthenticationForm()
+    return render(request, 'login.html', {'form_login': form_login})
+
+
 def index(request):
     return render(request, 'index.html')
-
 
 #CRUD AREA
 def cadastro_area(request):
@@ -39,9 +52,25 @@ def lista_disciplina(request):
     return (request, 'lista.html', {'disciplina': disciplina, 'area': area})
 
 #Crud professor
+
+
+def cadastrar_usuario(request):
+    if request.method == "POST":
+        form_usuario = UserCreationForm(request.POST)
+        form_professor = ProfessorForm(request.POST)
+        if form_usuario.is_valid() and form_professor.is_valid():
+            form_usuario.save()
+            form_professor.save()
+            return redirect('index')
+    else:
+        form_usuario = UserCreationForm()
+        form_professor = ProfessorForm()
+    return render(request, 'cadastro.html', {'form_usuario': form_usuario, 'form_professor': form_professor})
+
+
+
 def cadastro_professor(request):
     form = ProfessorForm(request.POST or None)
-
     if form.is_valid():
         form.save()
         return redirect('/lista_professores/')
@@ -51,6 +80,7 @@ def cadastro_professor(request):
 
 def lista_professor(request):
     professores = Professor.objects.all()
+
     return render(request, 'professor.html', {'professores': professores})
 
 def atualizar_prof(request,cpf):

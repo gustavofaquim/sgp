@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from .models import Professor
 from .models import Alternativa
 from .models import Questao
@@ -11,10 +13,16 @@ class AreaForm(forms.ModelForm):
         model = Area
         fields = '__all__'
 
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = ['cpf', 'nome','email', 'senha', 'nascimento', 'disciplina','foto']
+        fields = '__all__'
         foto = forms.FileField(
             label='Selecione sua foto'
         )

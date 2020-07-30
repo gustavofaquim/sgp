@@ -2,7 +2,8 @@ from django.db import models
 from tinymce.models import HTMLField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Disciplina(models.Model):
     disciplina = models.CharField(max_length=250)
@@ -25,6 +26,7 @@ class Area(models.Model):
 
 
 class Professor(models.Model):
+    user = models.ForeignKey(User, related_name='professor', unique=True, on_delete=models.CASCADE)
     cpf = models.BigIntegerField(primary_key=True)
     nome = models.CharField(max_length=350)
     email = models.EmailField()
@@ -33,12 +35,22 @@ class Professor(models.Model):
     foto = models.ImageField(upload_to="ft_prof", null=True, blank=True)
     disciplina = models.ManyToManyField(Disciplina)
 
+    @receiver(post_save, sender=User)
+    def create_user_professor(sender, instance, created, **kwargs):
+        if created:
+            Professor.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_professor(sender, instance, **kwargs):
+        instance.professor.save()
+
     def __str__(self):
         return str(self.nome)
 
     class Meta:
         db_table = "professor"
         verbose_name_plural = "Professores"
+
 
 
 
