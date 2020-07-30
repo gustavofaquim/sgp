@@ -60,17 +60,20 @@ def lista_disciplina(request):
 
 #Crud professor
 
-@login_required(login_url='/login')
+
 def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         form_professor = ProfessorForm(request.POST)
         if form_usuario.is_valid() and form_professor.is_valid():
-            usuario = form_usuario.save()
-            usuario = User.objects.get(id=usuario.id)
 
             professor = form_professor.save(commit=False)
-            professor.user = usuario
+            usuario = form_usuario.save(commit=False)
+            usuario.username = professor.email
+            usuario.save()
+
+            usuario_id = User.objects.get(id=usuario.id)
+            professor.user = usuario_id
 
             professor.save()
             return redirect('index')
@@ -91,24 +94,10 @@ def alterar_senha(request):
         form_senha = PasswordChangeForm(request.user)
     return render(request, 'alterar_senha.html', {'form_senha': form_senha})
 
-@login_required(login_url='/login')
-def cadastro_professor(request):
-    form = ProfessorForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('/lista_professores/')
-
-    return render(request, 'form-professor.html', {'form': form})
 
 @login_required(login_url='/login')
-def lista_professor(request):
-    professores = Professor.objects.all()
-
-    return render(request, 'professor.html', {'professores': professores})
-
-@login_required(login_url='/login')
-def atualizar_prof(request,cpf):
-    professor = Professor.objects.get(cpf=cpf)
+def atualizar_prof(request,id):
+    professor = Professor.objects.get(user_id=id)
     form = ProfessorForm(request.POST or None, instance=professor)
 
     if form.is_valid():
@@ -120,7 +109,10 @@ def atualizar_prof(request,cpf):
 @login_required(login_url='/login')
 def deletar_prof(request,cpf):
     professor = Professor.objects.get(cpf=cpf)
+    user = User.objects.get(id=professor.user.id)
     professor.delete()
+    user.delete()
+
     return redirect('/lista_professores/')
 
 

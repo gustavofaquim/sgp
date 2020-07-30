@@ -5,7 +5,9 @@
 {% block conteudo %}
     <form method="POST">{% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Cadastrar">
+        <a href="{% url 'alterar_senha' %}">Mudar senha</a>
+        <input type="submit" value="Atualizar">
+
     </form>
 
     {% if professor %}
