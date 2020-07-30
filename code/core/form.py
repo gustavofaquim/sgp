@@ -14,11 +14,6 @@ class AreaForm(forms.ModelForm):
         fields = '__all__'
 
 
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
-
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
@@ -44,5 +39,5 @@ class QuestaoForm(forms.ModelForm):
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
-        fields = ['professor', 'observacao', 'questao', 'configuracoes']
+        fields = '__all__'
 

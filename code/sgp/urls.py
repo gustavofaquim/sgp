@@ -25,7 +25,7 @@ urlpatterns = [
     #path('atualizar_alternativa/<int:id>/', views.atualizar_alter, name='atualizar_alternativa'),
     #path('deletar_alternativa/<int:id>/', views.deletar_alter, name='deletar_alternativa'),
     #Crud questao
-    path('cadastro-questao/', views.cadastro_questao),
+    path('cadastro-questao/', views.cadastro_questao, name='cadastro-questao'),
     path('lista_questao/', views.lista_questao, name='lista_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),

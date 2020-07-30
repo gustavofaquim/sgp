@@ -188,7 +188,7 @@ def cadastro_questao(request):
             questao = form.save()
             form_alternativa.instance = questao
             form_alternativa.save()
-            return redirect(reverse('questao.html'))
+            return redirect(reverse('lista_questao'))
         else:
             context = {
                 'form': form,
