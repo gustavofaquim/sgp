@@ -3,9 +3,9 @@
 {% block title %}Página Inicial{% endblock %}
 
 {% block conteudo %}
-     <form method="POST">{% csrf_token %}
+     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
            {{form.as_p | safe }}
-             <input type="submit" value="Cadastrar">
+             <button type="submit">Salvar</button>
      </form>
 
     {% if questao %}

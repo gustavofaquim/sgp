@@ -10,8 +10,6 @@
         {{ form.disciplina }}
         {{ form.imagem }}
 
-
-        <img src="{{ form.imagem.url }}">
         {{form_alternativa.management_form }}
 
         {% for fa in form_alternativa %}
@@ -22,7 +20,7 @@
         {% endfor %}
 
 
-        <input type="submit" value="Salvar">
+        <button type="submit">Salvar</button>
     </form>
 
 {% endblock %}

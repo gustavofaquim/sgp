@@ -223,9 +223,9 @@ def atualizar_quest(request,questao_id):
         if objeto is None:
             return redirect(reverse('lista_questao'))
 
-        form = QuestaoForm(request.POST, instance=objeto)
+        form = QuestaoForm(request.POST,request.FILES, instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
-        form_alternativa = form_alternativa_factory(request.POST, instance=objeto)
+        form_alternativa = form_alternativa_factory(request.POST,request.FILES, instance=objeto)
 
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save()
@@ -256,41 +256,29 @@ def deletar_quest(request,id):
 @login_required(login_url='/login')
 def cadastro_prova(request):
 
-    form = ProvaForm(request.POST or None)
+    if request.method == "GET":
+        form = ProvaForm()
 
-    if form.is_valid():
-        prova = form.save(commit=False)
-        professor = Professor.objects.get(user_id=request.user)
-        prova.professor = professor
-        prova.save()
+        context = {
+            'form': form,
+        }
+        return render(request, "form-prova.html", context)
 
-        if hasattr(form, 'save_m2m'):
-            form.save_m2m()
+    elif request.method == "POST":
+        form = ProvaForm(request.POST, request.FILES)
 
-        return redirect('/lista_prova/')
+        if form.is_valid():
+            prova = form.save(commit=False)
+            professor = Professor.objects.get(user_id=request.user)
+            prova.professor = professor
+            prova.save()
 
-    return render(request, 'form-prova.html', {'form': form})
+            if hasattr(form, 'save_m2m'):
+                form.save_m2m()
 
+            return redirect('/lista_prova/')
 
-
-
-'''
-
-    form = ProvaForm(request.POST or None)
-
-    if form.is_valid():
-        prova = form.save(commit=False)
-        professor = Professor.objects.get(user_id = request.user)
-        prova.professor = professor
-        print("Prova: \n", prova.observacao, prova.professor.nome)
-
-        for questoes in prova.questao:
-            print (questoes.enunciado)
-        #print("\n Questões: \n", prova.questao.area)
-        #prova.save()
-        return redirect('/lista_prova/')
-
-'''
+        return render(request, 'form-prova.html', {'form': form})
 
 
 @login_required(login_url='/login')
@@ -302,8 +290,9 @@ def lista_prova(request):
 
 @login_required(login_url='/login')
 def atualizar_prov(request,id):
+
     prova = Prova.objects.get(id=id)
-    form = ProvaForm(request.POST or None, instance=prova)
+    form = ProvaForm(request.POST or None, request.FILES or None, instance=prova)
 
     if form.is_valid():
         form.save()
