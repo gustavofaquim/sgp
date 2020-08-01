@@ -96,7 +96,7 @@ class Configuracoes(models.Model):
         db_table = "configuracoes"
 
 class Prova(models.Model):
-    instituicao = models.CharField(max_length=300)
+    #instituicao = models.CharField(max_length=300)
     data = models.DateField()
     valor = models.FloatField(null=True, blank=True)
     observacao = models.TextField()

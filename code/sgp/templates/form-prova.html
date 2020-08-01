@@ -4,11 +4,14 @@
 
 {% block conteudo %}
      <form method="POST">{% csrf_token %}
-            {{ form.as_p }}
+           Data: {{ form.data }}
+           Valor: {{ form.valor }} <br> <br>
+           Observações: {{form.observacao}} <br> <br>
+            {{form.imagem}}
+            {{form.configuracoes}} <br> <br>
+            {{form.questao | safe }} <br> <br>
              <input type="submit" value="Cadastrar">
      </form>
-
-
 
     {% if questao %}
         <a href="{% url 'deletar_questao' questao.id %}">Deletar</a>

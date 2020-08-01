@@ -254,15 +254,20 @@ def cadastro_prova(request):
     form = ProvaForm(request.POST or None)
 
     if form.is_valid():
-        form.save()
+        prova = form.save(commit=False)
+        professor = Professor.objects.get(user_id = request.user)
+        prova.professor = professor
+        prova.save()
         return redirect('/lista_prova/')
 
     return render(request, 'form-prova.html', {'form': form})
 
 @login_required(login_url='/login')
 def lista_prova(request):
-    provas = Prova.objects.all()
+    professor = Professor.objects.get(user=request.user)
+    provas = Prova.objects.filter(professor=professor)
     return render(request, 'prova.html', {'provas': provas})
+
 
 @login_required(login_url='/login')
 def atualizar_prov(request,id):

@@ -39,5 +39,5 @@ class QuestaoForm(forms.ModelForm):
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
-        fields = '__all__'
+        fields = ['data','valor','observacao','imagem','configuracoes','questao']
 
