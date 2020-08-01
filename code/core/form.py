@@ -32,12 +32,14 @@ class AlternativaForm(forms.ModelForm):
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = '__all__'
+        #fields = '__all__'
+        fields = ['enunciado','imagem','area','disciplina']
 
 
 
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
+        #fields = '__all__'
         fields = ['data','valor','observacao','imagem','configuracoes','questao']
 

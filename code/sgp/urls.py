@@ -32,7 +32,7 @@ urlpatterns = [
     path('cadastro-prova/', views.cadastro_prova),
     path('lista_prova/', views.lista_prova, name='lista_prova'),
     path('atualizar_prova/<int:id>', views.atualizar_prov, name='atualizar_prova'),
-    path('deletar_questao/<int:id>', views.deletar_prov, name='deletar_prova'),
+    path('deletar_prova/<int:id>', views.deletar_prov, name='deletar_prova'),
     path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
     path('vizualiar_prova/<int:id>', views.vizualiar_prova, name="vizualiar_prova"),
     ####

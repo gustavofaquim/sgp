@@ -52,7 +52,7 @@ class Questao(models.Model):
     imagem = models.ImageField(upload_to="questao", null=True, blank=True)
     area = models.ForeignKey(Area, on_delete=models.PROTECT, default="")
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default="")
-    professor = models.ForeignKey(Professor, on_delete=models.PROTECT, default="")
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
 
     def __str__(self):
         return str(self.enunciado)
@@ -60,7 +60,6 @@ class Questao(models.Model):
     class Meta:
         db_table = "questao"
         verbose_name_plural = "Questões"
-
 
 class Alternativa(models.Model):
     alternativa = models.TextField()
