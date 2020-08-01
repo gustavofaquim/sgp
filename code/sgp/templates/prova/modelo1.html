@@ -8,9 +8,10 @@
     <style>
         .cabecalho{
           display: flex;
-          align-items: center;
+          align-items:left;
           flex-direction: row;
           justify-content: center;
+          border: 1px solid red;
         }
         .cabecalho p {margin: 0;}
 
@@ -24,12 +25,13 @@
             margin: auto;
         }
 
-        .cabecalho h2{
-            text-align: jus;
+        .questao-enunciado{
+          border: 1px solid blue;
         }
+        .questao-enunciado p{
+          display: inline !important;
+          font-family:
 
-        .questoes p{
-            margin-left: 7%;
         }
 
         .questoes img{
@@ -44,8 +46,12 @@
           {% if prova.imagem %}
               <img src="{{ prova.imagem.url | safe }}">
           {% endif %}
+
       </div>
-      <div id="texto">
+      <div id='texto'>
+        {{prova.configuracoes.cabecalho | safe}}
+      </div>
+      <!-- <div id="texto">
           <p>{{prova.instituicao}}</p>
           <p>{{prova.turma}}</p>
           <p>Disciplina: {{prova.disciplina}}</p>
@@ -53,7 +59,7 @@
           <p>Discente:</p>
           <p>Data: {{prova.data}}</p>
           <p>Valor: {{prova.valor}}     Nota: </p>
-      </div>
+      </div> -->
     </header>
     <div class="observacao">
         {% if prova.observacao %}
@@ -64,7 +70,7 @@
     <div class="questoes">
         {% for questoes in prova.questao.all %}
 
-            <h4> Questão {{ forloop.counter }}  {{ questoes.enunciado | safe }}</h4>
+             <div class='questao-enunciado' id='questao-enunciado'>Questão {{ forloop.counter }} - {{ questoes.enunciado | safe }}</div>
              {% if questoes.imagem %}
                 <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">
              {% endif%}
@@ -80,11 +86,22 @@
     </footer>
 
     <script type="text/javascript">
-      var tamanho = "{{tamanho | escapejs}}" + "pt";
-      var fonte = "{{fonte | escapejs}}"
-      document.getElementById("prova").style.fontSize = tamanho;
-      alert(fonte);
-      document.getElementById("prova").style.fontFamily = fonte;
+      //var tamanho = "{{tamanho | escapejs}}" + "pt";
+      //var fonte = "{{fonte | escapejs}}"
+      //document.getElementById("prova").style.fontSize = tamanho;
+      //alert(fonte);
+      //document.getElementById("prova").style.fontFamily = fonte;
+
+      // Tentando pegar a atributo font-size do primeiro filho da classe questao-enunciado.
+      // depois setar esse valor na classe questão.
+      var element = document.querySelectorAll('.questao-enunciado p');
+      //var fontSize = element.style.fontSize
+      element.forEach(console.log);
+        console.log('');
+
+      var fontSize = element.style.fontSize
+      alert(fontSize)
+
     </script>
 </body>
 </html>

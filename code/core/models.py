@@ -48,7 +48,7 @@ class Professor(models.Model):
 class Questao(models.Model):
     #enunciado = models.TextField()
     #enunciado = HTMLField()
-    enunciado  = RichTextUploadingField ()
+    enunciado  = RichTextUploadingField()
     imagem = models.ImageField(upload_to="questao", null=True, blank=True)
     area = models.ForeignKey(Area, on_delete=models.PROTECT, default="")
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default="")
@@ -75,8 +75,8 @@ class Alternativa(models.Model):
 
 
 class Configuracoes(models.Model):
-    cabecalho = models.TextField()
-    rodape = models.TextField()
+    cabecalho = RichTextUploadingField ()
+    rodape = RichTextUploadingField ()
     TIPO_FONTE = (
         ('AR','Arial'),
         ('TR','Times New Roman'),
@@ -87,6 +87,7 @@ class Configuracoes(models.Model):
     )
     tipo_fonte = models.CharField(max_length=2, choices= TIPO_FONTE)
     tamanho = models.IntegerField()
+    #apelido = models.CharField(max_length=500)
 
     def __str__(self):
         return str(self.cabecalho)
