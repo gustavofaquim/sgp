@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django_object_actions',
     'ckeditor',
     'ckeditor_uploader',
-    'tinymce',
     'core',
     'sgp',
 ]
