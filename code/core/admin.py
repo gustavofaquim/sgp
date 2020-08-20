@@ -22,8 +22,8 @@ class AlternativaAdmin(admin.StackedInline):
 
 class QuestaoAdmin(admin.ModelAdmin):
     inlines = [AlternativaAdmin]
-    fields = ['enunciado','imagem','professor',('area','disciplina')]
-    list_display = ('enunciado','disciplina')
+    fields = ['enunciado','imagem','professor','assunto']
+    list_display = ['enunciado']
     search_fields = ['enunciado']
     #save_on_top = True
 
@@ -76,3 +76,4 @@ admin.site.register(Professor)
 admin.site.register(Area)
 admin.site.register(Configuracoes)
 admin.site.register(Prova, ProvaAdmin)
+admin.site.register(Assunto)

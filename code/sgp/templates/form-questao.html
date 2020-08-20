@@ -6,7 +6,8 @@
         {{ form.media }}
         {{ form.enunciado }}
         {{form.professor}}
-        {{ form.area }}
+        <br>
+        Assunto da questão: {{ form.assunto }} <a href="/cadastrar-assunto/">+</a> <br>
         {{ form.disciplina }}
         {{ form.imagem }}
 
@@ -39,5 +40,3 @@
         </script>
 
         {% endblock %}
-
-

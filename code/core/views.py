@@ -17,7 +17,6 @@ import json
 from .models import *
 from .form import *
 
-
 def logar_usuario(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -99,10 +98,11 @@ def alterar_senha(request):
 def atualizar_prof(request,id):
     professor = Professor.objects.get(user_id=id)
     form = ProfessorForm(request.POST or None, instance=professor)
+    #form_alternativa = form_alternativa_factory(request.POST, request.FILES, instance=objeto)
 
     if form.is_valid():
         form.save()
-        return redirect('/lista_professores/')
+        return redirect('index')
 
     return render(request, 'form-professor.html', {'form': form, 'professor': professor})
 
@@ -113,7 +113,7 @@ def deletar_prof(request,cpf):
     professor.delete()
     user.delete()
 
-    return redirect('/lista_professores/')
+    return redirect('index')
 
 
 #Crud alternativa
@@ -169,7 +169,17 @@ def deletar_alter(request,id):
 @login_required(login_url='/login')
 def cadastro_questao(request):
     if request.method == "GET":
+        professor = Professor.objects.get(user_id=request.user)
+        ids = []
+        aux = Assunto.objects.filter(disciplina=0)
+
+        for disciplinas in professor.disciplina.all():
+            ids.append(disciplinas.id)
+            assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+
         form = QuestaoForm()
+
+        form.fields["assunto"].queryset = assuntos
         form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=5)
         form_alternativa = form_alternativa_factory()
 
@@ -177,6 +187,8 @@ def cadastro_questao(request):
            'form': form,
            'form_alternativa': form_alternativa,
         }
+
+       #print(form)
         return render(request, "form-questao.html", context)
 
     elif request.method == "POST":
