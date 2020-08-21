@@ -7,8 +7,7 @@
         {{ form.enunciado }}
         {{form.professor}}
         <br>
-        Assunto da questão: {{ form.assunto }} <a href="/cadastrar-assunto/">+</a> <br>
-        {{ form.disciplina }}
+        Assunto da questão: {{ form.assunto }} <a href="/cadastrar-assunto/">+</a> <br><br>
         {{ form.imagem }}
 
         {{form_alternativa.management_form }}
@@ -16,11 +15,15 @@
         {% for fa in form_alternativa %}
         <div class="inlineform">
             <hr>
-            {{ fa }}
+            Alternativa: <br>
+            {{ fa.alternativa }} <br>
+            Está alternativa está correta ? {{ fa.correta }} <br>
+            Imagem: {{fa.imagem}} <br> <br>
         </div>
         {% endfor %}
 
 
+        <br> <br>
         <button type="submit">Salvar</button>
     </form>
 
@@ -33,8 +36,8 @@
             $(function() {
                 $('.inlineform').formset({
                     prefix: '{{ form_alternativa.prefix }}',
-                    addText: 'Adicionar nova alternativa',
-                    deleteText: 'Remover alternativa',
+                    addText: ' + Adicionar Alternativa',
+                    deleteText: ' - Remover Alternativa',
                 });
             })
         </script>

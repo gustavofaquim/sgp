@@ -50,6 +50,28 @@ def cadastro_area(request):
         return redirect('/lista_areas/')
     return render(request, 'forms.html', {'form': form})
 
+@login_required(login_url='/login')
+def cadastrar_assunto(request):
+
+    form = AssuntoForm(request.POST or None)
+    professor = Professor.objects.get(user_id=request.user)
+    ids = []
+    aux = Disciplina.objects.filter(id=0)
+
+    for disciplinas in professor.disciplina.all():
+        ids.append(disciplinas.id)
+        disciplinas = aux | Disciplina.objects.filter(id=disciplinas.id)
+
+
+    form.fields["disciplina"].queryset = disciplinas
+
+    if form.is_valid():
+        form.save()
+        return redirect('/cadastro-questao/')
+    return render(request, 'forms.html',{'form': form})
+
+
+
 #CRUD DISCIPLINAS
 @login_required(login_url='/login')
 def lista_disciplina(request):
@@ -63,7 +85,7 @@ def lista_disciplina(request):
 def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
-        form_professor = ProfessorForm(request.POST)
+        form_professor = ProfessorForm(request.POST,request.FILES)
         if form_usuario.is_valid() and form_professor.is_valid():
 
             professor = form_professor.save(commit=False)
@@ -97,14 +119,26 @@ def alterar_senha(request):
 @login_required(login_url='/login')
 def atualizar_prof(request,id):
     professor = Professor.objects.get(user_id=id)
-    form = ProfessorForm(request.POST or None, instance=professor)
+    #form = ProfessorForm(request.POST or None, instance=professor)
+
+    if request.method == "POST" or request.method == None:
+        form = ProfessorForm(request.POST, request.FILES, instance=professor)
     #form_alternativa = form_alternativa_factory(request.POST, request.FILES, instance=objeto)
 
-    if form.is_valid():
-        form.save()
-        return redirect('index')
+        if form.is_valid():
+            form.save()
+            return redirect('index')
 
-    return render(request, 'form-professor.html', {'form': form, 'professor': professor})
+        return render(request, 'form-professor.html', {'form': form, 'professor': professor})
+
+    elif(request.method == "GET"):
+        form = ProfessorForm(instance=professor)
+
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+        return render(request, 'form-professor.html', {'form': form, 'professor': professor})
 
 @login_required(login_url='/login')
 def deletar_prof(request,cpf):

@@ -12,6 +12,7 @@ urlpatterns = [
     path('logout',views.deslogar_usuario, name='logout'),
     #CRUD AREA
     path('cadastro_area/', views.cadastro_area),
+    path('cadastrar-assunto/', views.cadastrar_assunto, name='cadastrar-assunto'),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
     path('cadastrar_usuario', views.cadastrar_usuario, name="cadastrar_usuario"),
