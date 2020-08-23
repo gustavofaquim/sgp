@@ -128,7 +128,6 @@ def atualizar_prof(request,id):
     if form.is_valid():
         forms = form.save(commit=False)
         forms.save()
-
         return redirect('index')
 
     return render(request, 'form-professor.html', {'form': form, 'professor': professor})
@@ -178,7 +177,7 @@ def lista_alternativa(request):
 @login_required(login_url='/login')
 def atualizar_alter(request,id):
     alternativa = Alternativa.objects.get(id=id)
-    form = AlternativaForm(request.POST or None, instance=alternativa)
+    form = AlternativaForm(request.POST or None, request.FILES or None, instance=alternativa)
 
     if form.is_valid():
         form.save()
