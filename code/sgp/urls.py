@@ -15,7 +15,7 @@ urlpatterns = [
     path('cadastrar-assunto/', views.cadastrar_assunto, name='cadastrar-assunto'),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
-    path('cadastrar_usuario', views.cadastrar_usuario, name="cadastrar_usuario"),
+    path('cadastrar_usuario/', views.cadastrar_usuario, name="cadastrar_usuario"),
     path('alterar_senha', views.alterar_senha, name='alterar_senha'),
     path('atualizar_professor/<int:id>/', views.atualizar_prof, name='atualizar_professor'),
     path('deletar_professor/<int:cpf>', views.deletar_prof, name='deletar_professor'),
@@ -41,7 +41,5 @@ urlpatterns = [
     #path(r'^tinymce/', include('tinymce.urls')),
     path('', views.index, name='index'),
     path('index/', views.index, name='index'),
-]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

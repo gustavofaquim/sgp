@@ -24,21 +24,21 @@ class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
         fields = ('cpf','nome','email','nascimento','foto','disciplina','foto')
-        foto = forms.ImageField()
+
 
 
 class AlternativaForm(forms.ModelForm):
     class Meta:
         model = Alternativa
         fields = '__all__'
-        imagem = forms.ImageField()
+
 
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
         fields = ['enunciado','imagem','assunto']
-        imagem = forms.ImageField()
+
 
 
 class Configuracoes(forms.ModelForm):

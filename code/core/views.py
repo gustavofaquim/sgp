@@ -86,6 +86,7 @@ def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         form_professor = ProfessorForm(request.POST,request.FILES)
+
         if form_usuario.is_valid() and form_professor.is_valid():
 
             professor = form_professor.save(commit=False)
@@ -119,26 +120,19 @@ def alterar_senha(request):
 @login_required(login_url='/login')
 def atualizar_prof(request,id):
     professor = Professor.objects.get(user_id=id)
-    #form = ProfessorForm(request.POST or None, instance=professor)
+    print(request.method)
 
-    if request.method == "POST" or request.method == None:
-        form = ProfessorForm(request.POST, request.FILES, instance=professor)
-    #form_alternativa = form_alternativa_factory(request.POST, request.FILES, instance=objeto)
+    form = ProfessorForm(request.POST or None, request.FILES or None, instance=professor)
+    print(request.FILES)
+    print(form.is_valid())
+    if form.is_valid():
+        forms = form.save(commit=False)
+        forms.save()
 
-        if form.is_valid():
-            form.save()
-            return redirect('index')
+        return redirect('index')
 
-        return render(request, 'form-professor.html', {'form': form, 'professor': professor})
+    return render(request, 'form-professor.html', {'form': form, 'professor': professor})
 
-    elif(request.method == "GET"):
-        form = ProfessorForm(instance=professor)
-
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-
-        return render(request, 'form-professor.html', {'form': form, 'professor': professor})
 
 @login_required(login_url='/login')
 def deletar_prof(request,cpf):
@@ -254,7 +248,7 @@ def atualizar_quest(request,questao_id):
         if objeto is None:
             return redirect(reverse('questao.html'))
 
-        form = QuestaoForm(instance=objeto)
+        form = QuestaoForm(request.FILES or None,instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=0)
         form_alternativa = form_alternativa_factory(instance=objeto)
 

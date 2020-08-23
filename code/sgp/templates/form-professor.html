@@ -4,14 +4,18 @@
 
 {% block conteudo %}
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-
+        {{ form.path }}
         {{form.cpf}} <br> <br>
         {{form.nome}} <br> <br>
         {{form.email}} <br> <br>
         {{form.nascimento}} <br> <br>
+        {{form.disciplina}}
         {{form.foto}}<br> <br>
-        <img style="width:200px" src="{{form.foto.value.url}}" alt=""> <br> <br>
+        {{form.errors}}
 
+        {% if form.foto.url %}
+            <img style="width:200px" src="{{form.foto.value.url}}" alt=""> <br> <br>
+        {% endif %}
 
         <a href="{% url 'alterar_senha' %}">Mudar senha</a>
         <input type="submit" value="Atualizar">
