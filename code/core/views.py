@@ -291,6 +291,19 @@ def deletar_quest(request,id):
     return redirect('/lista_questao/')
 
 
+
+@login_required(login_url='/login')
+def cadastro_configs(request):
+    if request.method == "GET":
+        form = ConfiguracoesForm()
+
+        context = {
+            'form': form,
+        }
+
+        return render(request, "configuracoes.html", context)
+
+
 #Crud prova
 @login_required(login_url='/login')
 def cadastro_prova(request):

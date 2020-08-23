@@ -5,7 +5,7 @@
 {% block conteudo %}
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-       
+
         {% if form.foto.value.url %}
             <img style="width:200px" src="{{form.foto.value.url}}" alt="">
         {% endif %}

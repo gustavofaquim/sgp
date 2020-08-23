@@ -85,9 +85,9 @@ class Alternativa(models.Model):
 
 class Configuracoes(models.Model):
     apelido = models.CharField(max_length=500)
-    cabecalho = RichTextUploadingField()
+    cabecalho = models.TextField()
     imagem_cabecalho = models.ImageField(upload_to="cabecalho/", null=True, blank=True)
-    rodape = RichTextUploadingField()
+    rodape = models.TextField(null=True, blank=True)
     imagem = models.ImageField(upload_to="rodape/", null=True, blank=True)
     tamanho = models.IntegerField()
 

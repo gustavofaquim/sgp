@@ -41,7 +41,7 @@ class QuestaoForm(forms.ModelForm):
         imagem = forms.ImageField()
 
 
-class Configuracoes(forms.ModelForm):
+class ConfiguracoesForm(forms.ModelForm):
     class Meta:
         model = Configuracoes
         fields = '__all__'

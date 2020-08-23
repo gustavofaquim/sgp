@@ -1,0 +1,12 @@
+{% extends "_layouts/base.html" %}
+{% load static %}
+{% block conteudo %}
+
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{form.as_p}}
+
+        <br><br>
+        <button type="submit">Salvar</button>
+    </form>
+
+{% endblock %}
