@@ -303,13 +303,37 @@ def cadastro_configs(request):
 
         return render(request, "configuracoes.html", context)
 
+    elif request.method == "POST":
+        form = ConfiguracoesForm(request.POST,request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/index/')
+
+        return render(request, 'form.html', {'form': form})
 
 #Crud prova
 @login_required(login_url='/login')
 def cadastro_prova(request):
 
     if request.method == "GET":
+        professor = Professor.objects.get(user_id=request.user)
+        ids = []
+        aux = Assunto.objects.filter(disciplina=0)
+        print(professor.disciplina.all())
+
+
+        for disciplinas in professor.disciplina.all():
+            ids.append(disciplinas.id)
+            assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+
+
+
         form = ProvaForm()
+
+        form.fields["assunto"].queryset = assuntos
+        form.fields["disciplina"].queryset= professor.disciplina;
+
 
         context = {
             'form': form,
@@ -355,10 +379,11 @@ def atualizar_prov(request,id):
 @login_required(login_url='/login')
 def gerar_prova(request, id):
     prova = Prova.objects.get(id=id)
-    tamanho = prova.configuracoes.tamanho
-    fonte = prova.configuracoes.tipo_fonte
+    #tamanho = prova.configuracoes.tamanho
+    #fonte = prova.configuracoes.tipo_fonte
 
-    html_string = render_to_string('prova/modelo1.html', {'prova': prova,'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
+    #html_string = render_to_string('prova/modelo1.html', {'prova': prova,'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
+    html_string = render_to_string('prova/modelo1.html', {'prova': prova})
     print(prova.professor.nome)
     html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
     html.write_pdf(target='/tmp/{}.pdf'.format(prova));

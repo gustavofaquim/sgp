@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
+
+        body{
+            text-align: justify;
+        }
         .cabecalho{
           display: flex;
           align-items:left;
@@ -18,7 +22,6 @@
         #logo{
             border: 1px solid;
             margin-right: 10px;
-
         }
         #logo img{
             max-width: 150px;
@@ -28,16 +31,17 @@
         .questao-enunciado{
           border: 1px solid blue;
         }
+
         .questao-enunciado p{
           display: inline !important;
           font-family:
-
         }
 
         .questoes img{
             max-width:25%;
             max-height:25%
         }
+
     </style>
 </head>
 <body id="prova">
@@ -76,7 +80,7 @@
              {% endif%}
 
             {% for alternativas in questoes.alternativas.all %}
-                <p> ( ) {{ alternativas.alternativa }} </p>
+                <p>{% cycle 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' %} (   ) {{ alternativas.alternativa }} </p>
             {% endfor %}
 
         {% endfor %}
