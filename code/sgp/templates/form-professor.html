@@ -6,16 +6,18 @@
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 
 
-        {% if form.foto.value.url %}
-            <img style="width:200px" src="{{form.foto.value.url}}" alt="">
+
+
+        {% if form.foto.value %}
+             <img style="width:200px" src="{{form.foto.value.url}}" alt="">
         {% endif %}
 
         <br> <br>
-        {{form.cpf}} <br> <br>
-        {{form.nome}} <br> <br>
-        {{form.email}} <br> <br>
-        {{form.nascimento}} <br> <br>
-        {{form.disciplina}} <br> <br>
+        CPF: {{form.cpf}} <br> <br>
+        Nome: {{form.nome}} <br> <br>
+        E-mail: {{form.email}} <br> <br>
+        Data de Nascimento: {{form.nascimento}} <br> <br>
+        Disciplinas: <br> {{form.disciplina}} <br> <br>
         {{form.foto}}<br> <br>
         {{form.errors}}
 
