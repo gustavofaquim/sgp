@@ -297,7 +297,14 @@ def atualizar_quest(request,questao_id):
 
 @login_required(login_url='/login')
 def lista_questao(request):
-    questoes = Questao.objects.all()
+
+    professor = Professor.objects.get(user_id=request.user)
+    questoes = Questao.objects.filter(professor=professor)
+    #Questao.objects.filter(assunto=assunt_quest.id)
+
+
+
+
     return render(request, 'questao.html', {'questoes': questoes})
 
 @login_required(login_url='/login')
@@ -336,20 +343,23 @@ def cadastro_prova(request):
         aux = Assunto.objects.filter(disciplina=0)
         aux2 = Questao.objects.filter(assunto=0)
         print(professor.disciplina.all())
+        questoes = Questao.objects.filter(assunto=0)
 
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
             for assunt_quest in assuntos:
-                questoes = aux2 | Questao.objects.filter(assunto=assunt_quest.id)
-
+                print(assunt_quest)
+                questoes = questoes| aux2 | Questao.objects.filter(assunto=assunt_quest.id)
+                print("\n Questões:", Questao.objects.filter(assunto=assunt_quest.id))
 
         form = ProvaForm()
 
         #form.fields["assunto"].queryset = assuntos
         form.fields["disciplina"].queryset = professor.disciplina;
         form.fields["questao"].queryset = questoes
+
 
         context = {
             'form': form,
