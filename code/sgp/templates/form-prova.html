@@ -27,12 +27,19 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
 
-    var msg = $('*').val();
-    msg = msg.replace(/<.+?>/g, '');
-    msg = msg.replace(/&ldquo/g, '');
-    console.log(msg);
+<script>
+function getInnerText() {
+  alert(document.getElementById("questoes").innerText)
+}
+
+//Tentando pegar somente o texto da questão
+alert(document.getElementById("questoes").querySelector("li").querySelector("label").textContent)
+//alert(document.getElementById("questoes").textContent)
+
+
 
 </script>
+
+
 {% endblock %}
