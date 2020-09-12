@@ -49,9 +49,10 @@ class ConfiguracoesForm(forms.ModelForm):
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
-        fields = ['apelido','data','valor','observacao','disciplina','assunto','configuracoes','questao']
-        '''widgets = {
-            'observacao': forms.TextInput(attrs={'class': 'obs'}),
-            'questao': forms.CheckboxSelectMultiple()
-        }'''
+        fields = ['apelido','data','valor','observacao','disciplina','configuracoes','questao']
+        widgets = {
+            'questao': forms.CheckboxSelectMultiple(attrs={
+            'id': 'questoes',
+            'class': 'questoes'})
+        }
 

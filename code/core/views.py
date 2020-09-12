@@ -17,6 +17,7 @@ import json
 from .models import *
 from .form import *
 
+
 def logar_usuario(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -39,6 +40,22 @@ def deslogar_usuario(request):
 @login_required(login_url='/login')
 def index(request):
     return render(request, 'index.html')
+
+@login_required(login_url='/login')
+def filtro_assunto(request):
+    professor = Professor.objects.get(user_id=request.user)
+    ids = []
+    aux = Assunto.objects.filter(disciplina=0)
+
+    for disciplinas in professor.disciplina.all():
+        ids.append(disciplinas.id)
+        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+
+    form = ProvaForm()
+
+    form.fields["assunto"].queryset = assuntos
+    form.fields["disciplina"].queryset = professor.disciplina;
+
 
 #CRUD AREA
 @login_required(login_url='/login')
@@ -69,7 +86,6 @@ def cadastrar_assunto(request):
         form.save()
         return redirect('/cadastro-questao/')
     return render(request, 'forms.html',{'form': form})
-
 
 
 #CRUD DISCIPLINAS
@@ -290,8 +306,6 @@ def deletar_quest(request,id):
     questao.delete()
     return redirect('/lista_questao/')
 
-
-
 @login_required(login_url='/login')
 def cadastro_configs(request):
     if request.method == "GET":
@@ -320,20 +334,22 @@ def cadastro_prova(request):
         professor = Professor.objects.get(user_id=request.user)
         ids = []
         aux = Assunto.objects.filter(disciplina=0)
+        aux2 = Questao.objects.filter(assunto=0)
         print(professor.disciplina.all())
 
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
-
+            for assunt_quest in assuntos:
+                questoes = aux2 | Questao.objects.filter(assunto=assunt_quest.id)
 
 
         form = ProvaForm()
 
-        form.fields["assunto"].queryset = assuntos
-        form.fields["disciplina"].queryset= professor.disciplina;
-
+        #form.fields["assunto"].queryset = assuntos
+        form.fields["disciplina"].queryset = professor.disciplina;
+        form.fields["questao"].queryset = questoes
 
         context = {
             'form': form,
@@ -358,23 +374,39 @@ def cadastro_prova(request):
 
 
 @login_required(login_url='/login')
-def lista_prova(request):
-    professor = Professor.objects.get(user=request.user)
-    provas = Prova.objects.filter(professor=professor)
-    return render(request, 'prova.html', {'provas': provas})
-
-
-@login_required(login_url='/login')
 def atualizar_prov(request,id):
+
+    professor = Professor.objects.get(user_id=request.user)
+    ids = []
+    aux = Assunto.objects.filter(disciplina=0)
+    aux2 = Questao.objects.filter(assunto=0)
+
+    for disciplinas in professor.disciplina.all():
+        ids.append(disciplinas.id)
+        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+        for assunt_quest in assuntos:
+            questoes = aux2 | Questao.objects.filter(assunto=assunt_quest.id)
+
 
     prova = Prova.objects.get(id=id)
     form = ProvaForm(request.POST or None, request.FILES or None, instance=prova)
+
+    form.fields["disciplina"].queryset = professor.disciplina;
+    form.fields["questao"].queryset = questoes
 
     if form.is_valid():
         form.save()
         return redirect ('/lista_prova/')
 
     return render(request, 'form-prova.html', {'form': form, 'prova': prova})
+
+
+@login_required(login_url='/login')
+def lista_prova(request):
+    professor = Professor.objects.get(user=request.user)
+    provas = Prova.objects.filter(professor=professor)
+    return render(request, 'prova.html', {'provas': provas})
+
 
 @login_required(login_url='/login')
 def gerar_prova(request, id):

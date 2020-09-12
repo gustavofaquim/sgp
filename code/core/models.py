@@ -103,7 +103,6 @@ class Prova(models.Model):
     data = models.DateField()
     valor = models.FloatField(null=True, blank=True)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, null=False)
-    assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE, null=True)
     observacao = models.TextField(null=True)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name="professor")
     configuracoes = models.ForeignKey(Configuracoes, on_delete=models.PROTECT, default="")
