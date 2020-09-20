@@ -302,9 +302,6 @@ def lista_questao(request):
     questoes = Questao.objects.filter(professor=professor)
     #Questao.objects.filter(assunto=assunt_quest.id)
 
-
-
-
     return render(request, 'questao.html', {'questoes': questoes})
 
 @login_required(login_url='/login')
