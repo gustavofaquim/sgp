@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_object_actions',
     'ckeditor',
     'ckeditor_uploader',
+    'widget_tweaks',
     'core',
     'sgp',
 ]

@@ -32,21 +32,21 @@
 {% block scripts %}
 
 <script>
-function getInnerText() {
-  alert(document.getElementById("questoes").innerText)
+
+var str = document.querySelectorAll('.questoes label');
+//console.log(str.length);
+
+for(var i =0; i < str.length; i++){
+    var res = str[i].textContent.replace(/(<([^>]+)>)/gi,"");
+    console.log(str[i].textContent);
+    //document.querySelectorAll('.questoes label')[i].textContent.innerHTML = res;
 }
 
-//Tentando pegar somente o texto da questão
-//alert(document.getElementById("questoes").querySelector("li").querySelector("label").textContent)
-//alert(document.getElementById("questoes").textContent)
 
-//var str = "• Este é um <span>texgto de teste!•••";
-//var res = str.replace(/•/g, "");
 
-var str = document.getElementById("questoes").textContent;
-var res = str.replace(/(<([^>]+)>)/gi,"");
+//var res = str.replace(/(<([^>]+)>)/gi,"");
 
-document.getElementById("texto").innerHTML = res;
+//document.getElementById("texto").innerHTML = res;
 
 //alert(document.getElementById("questoes").textContent);
 
