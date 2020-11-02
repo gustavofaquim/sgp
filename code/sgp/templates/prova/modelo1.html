@@ -41,6 +41,9 @@
             max-width:25%;
             max-height:25%
         }
+        .itens{
+            list-style-type: lower-alpha;
+        }
 
     </style>
 </head>
@@ -79,10 +82,14 @@
                 <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">
              {% endif%}
 
-            {% for alternativas in questoes.alternativas.all %}
-                <p>{% cycle 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' %} (   ) {{ alternativas.alternativa }} </p>
-            {% endfor %}
 
+            <ol class="itens">
+            {% for alternativas in questoes.alternativas.all %}
+                <!-- <p>{% cycle 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' %} (   ) {{ alternativas.alternativa }} </p> -->
+                <li> (  ) {{ alternativas.alternativa }}</li>
+
+            {% endfor %}
+            </ol>
         {% endfor %}
     </div>
 

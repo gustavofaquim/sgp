@@ -425,7 +425,7 @@ def gerar_prova(request, id):
     html_string = render_to_string('prova/modelo1.html', {'prova': prova})
     print(prova.professor.nome)
     html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
-    html.write_pdf(target='/tmp/{}.pdf'.format(prova));
+    html.write_pdf(target='/tmp/{}.pdf'.format(prova))
 
     fs = FileSystemStorage('/tmp')
     with fs.open('{}.pdf'.format(prova)) as pdf:
