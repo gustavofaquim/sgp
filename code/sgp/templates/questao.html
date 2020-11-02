@@ -3,28 +3,40 @@
 {% block title %}Questões{% endblock %}
 
 {% block conteudo %}
-        <table>
+
         {% for questao in questoes %}
-            <tr>
-                <td>
-                    <a href="{% url 'atualizar_questao' questao.id %}">
-                    {{questao.id}} |{{questao.enunciado | safe}}
-                    </a>
+          <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
+          <!-- {{questao.id}} |{{questao.enunciado | safe}}-->
+            {{questao.enunciado}}
+          </a>
 
-                <ul>
-                    {% for a in questao.alternativas.all %}
-                    <li>{{a.alternativa}}</li>
-                    {% endfor %}
-                </ul>
-                <td>
-
-                <td>
-                <!-- <a href="{% url 'atualizar_questao' questao.id %}">Atualizar</a> -->
-                </td>
+          <ul>
+            {% for a in questao.alternativas.all %}
+            <li>{{a.alternativa}}</li>
+            {% endfor %}
+          </ul>
 
         {% endfor %}
-            </tr>
-        </table>
+
 
     <a href="/cadastro-questao/">Cadastro</a>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+var str = document.getElementsByClassName('lista_questoes');
+for(var i=0; i< str.length; i++){
+  var res = str[i].textContent.replace(/(<([^>]+)>)/gi,"")
+  document.getElementsByClassName('lista_questoes')[i].innerHTML = res;
+}
+
+//var res = str.replace(/(<([^>]+)>)/gi,"");
+//document.getElementById("lista_questoes").innerHTML = res;
+
+
+</script>
+
+
 {% endblock %}

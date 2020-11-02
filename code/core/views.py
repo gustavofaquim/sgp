@@ -354,7 +354,7 @@ def cadastro_prova(request):
         form = ProvaForm()
 
         #form.fields["assunto"].queryset = assuntos
-        form.fields["disciplina"].queryset = professor.disciplina;
+        form.fields["disciplina"].queryset = professor.disciplina
         form.fields["questao"].queryset = questoes
 
 
@@ -398,7 +398,7 @@ def atualizar_prov(request,id):
     prova = Prova.objects.get(id=id)
     form = ProvaForm(request.POST or None, request.FILES or None, instance=prova)
 
-    form.fields["disciplina"].queryset = professor.disciplina;
+    form.fields["disciplina"].queryset = professor.disciplina
     form.fields["questao"].queryset = questoes
 
     if form.is_valid():
