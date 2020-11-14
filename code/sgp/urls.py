@@ -13,6 +13,7 @@ urlpatterns = [
     #CRUD AREA
     path('cadastro_area/', views.cadastro_area),
     path('cadastrar-assunto/', views.cadastrar_assunto, name='cadastrar-assunto'),
+    path('cadastrar-texto/', views.cadastrar_texto, name='cadastrar-texto'),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
     path('cadastrar_usuario/', views.cadastrar_usuario, name="cadastrar_usuario"),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('atualizar_prova/<int:id>', views.atualizar_prov, name='atualizar_prova'),
     path('deletar_prova/<int:id>', views.deletar_prov, name='deletar_prova'),
     path('gerar_prova/<int:id>', views.gerar_prova, name="gerar_prova"),
+    path('gerar_gabarito/<int:id>', views.gerar_gabarito, name="gerar_gabarito"),
     path('vizualiar_prova/<int:id>', views.vizualiar_prova, name="vizualiar_prova"),
     ####
     path('ckeditor/', include('ckeditor_uploader.urls')),

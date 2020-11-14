@@ -8,6 +8,7 @@ from .models import Prova
 from .models import Area
 from .models import Configuracoes
 from .models import Assunto
+from .models import Texto
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class AreaForm(forms.ModelForm):
@@ -33,12 +34,20 @@ class AlternativaForm(forms.ModelForm):
         fields = '__all__'
         imagem = forms.ImageField()
 
+class TextoForm(forms.ModelForm):
+    class Meta:
+        model = Texto
+        fields = ['texto', 'referencia', 'assunto']
+
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = ['enunciado','imagem','assunto']
+        fields = ['enunciado','textos','imagem','assunto']
         imagem = forms.ImageField()
+        widgtes = {
+            'textos': forms.ChoiceField()
+        }
 
 
 class ConfiguracoesForm(forms.ModelForm):

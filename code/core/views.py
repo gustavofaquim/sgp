@@ -54,7 +54,7 @@ def filtro_assunto(request):
     form = ProvaForm()
 
     form.fields["assunto"].queryset = assuntos
-    form.fields["disciplina"].queryset = professor.disciplina;
+    form.fields["disciplina"].queryset = professor.disciplina
 
 
 #CRUD AREA
@@ -66,6 +66,27 @@ def cadastro_area(request):
         form.save()
         return redirect('/lista_areas/')
     return render(request, 'forms.html', {'form': form})
+
+
+@login_required(login_url='/login')
+def cadastrar_texto(request):
+    form = TextoForm(request.POST or None)
+
+    professor = Professor.objects.get(user_id=request.user)
+    ids = []
+    aux = Assunto.objects.filter(id=0)
+
+    for disciplinas in professor.disciplina.all():
+        ids.append(disciplinas.id)
+        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+
+    form.fields["assunto"].queryset = assuntos
+
+    if form.is_valid():
+        form.save()
+        return redirect('/index/')
+    return render(request, 'forms.html', {'form': form})
+
 
 @login_required(login_url='/login')
 def cadastrar_assunto(request):
@@ -215,7 +236,7 @@ def cadastro_questao(request):
         professor = Professor.objects.get(user_id=request.user)
         ids = []
         aux = Assunto.objects.filter(disciplina=0)
-
+        assuntos = "" #apagar essa linha de bugar
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
@@ -223,7 +244,7 @@ def cadastro_questao(request):
         form = QuestaoForm()
 
         form.fields["assunto"].queryset = assuntos
-        form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=5)
+        form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=1)
         form_alternativa = form_alternativa_factory()
 
         context = {
@@ -254,6 +275,9 @@ def cadastro_questao(request):
                 'form_telefone': form_alternativa,
             }
             return render(request,'form-questao.html', context)
+
+
+
 
 @login_required(login_url='/login')
 def atualizar_quest(request,questao_id):
@@ -339,7 +363,6 @@ def cadastro_prova(request):
         ids = []
         aux = Assunto.objects.filter(disciplina=0)
         aux2 = Questao.objects.filter(assunto=0)
-        print(professor.disciplina.all())
         questoes = Questao.objects.filter(assunto=0)
 
 
@@ -347,9 +370,9 @@ def cadastro_prova(request):
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
             for assunt_quest in assuntos:
-                print(assunt_quest)
+                #print(assunt_quest)
                 questoes = questoes| aux2 | Questao.objects.filter(assunto=assunt_quest.id)
-                print("\n Questões:", Questao.objects.filter(assunto=assunt_quest.id))
+                #print("\n Questões:", Questao.objects.filter(assunto=assunt_quest.id))
 
         form = ProvaForm()
 
@@ -433,7 +456,40 @@ def gerar_prova(request, id):
         response['Content-Disposition'] = 'attachment; filename="{}.pdf"'.format(prova)
         return response
 
-    return response
+@login_required(login_url='/login')
+def gerar_gabarito(request,id):
+
+    prova = Prova.objects.get(id=id)
+    #print(prova.questao.all())
+
+    lista_questoes = []
+    alternativa_correta = []
+
+
+    for questoes in prova.questao.all():
+
+        print(questoes.enunciado)
+        print(questoes.alternativas.all().filter(correta=True))
+        #lista_questoes.append(Questao.objects.get(id=questoes.id))
+        #alternativa_correta.append(questoes.alternativas.filter(correta = True))
+        #Gabarito.alternativa_correta.set(alternativa_correta)
+
+    #gabarito = Gabarito(prova=prova, questoes = lista_questoes, alternativa_correta = alternativa_correta)
+
+    #questao = Questao.objects.get(id=prova.questao.id)
+
+
+    #print(questao.alternativas.all())
+
+    #gabarito = Gabarito.objects.create(prova=prova,questao=questao)
+    #gabarito = Gabarito(prova=prova,questao=questao,alternativa=alternativa)
+
+    #print("\n\n", gabarito.prova.questao.enunciado,"\n\n\n")
+
+    #html_string = render_to_string('prova/gabarito.html', {'gabarito': gabarito})
+
+    return redirect('/index')
+
 
 
 @login_required(login_url='/login')

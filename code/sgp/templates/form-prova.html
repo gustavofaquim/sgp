@@ -3,7 +3,6 @@
 
 {% block conteudo %}
      <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-
            Apelido: <br> {{form.apelido}} <br><br>
            Data: <br>{{form.data}} <br><br>
            Valor:  <br>{{form.valor}} <br><br>
@@ -25,6 +24,7 @@
     {% if prova %}
         <a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a>
         <a href="{% url 'gerar_prova' prova.id %}">Gerar prova</a>
+        <a href="{% url 'gerar_gabarito' prova.id %}">Gerar Gabarito</a>
         <a href="{% url 'vizualiar_prova' prova.id %}">Vizualizar prova</a>
     {% endif %}
 {% endblock %}
@@ -38,8 +38,9 @@ var str = document.querySelectorAll('.questoes label');
 
 for(var i =0; i < str.length; i++){
     var res = str[i].textContent.replace(/(<([^>]+)>)/gi,"");
+    //console.log("FILHOS: ",str[i].textContent);
     //console.log(document.querySelectorAll('.questoes label')[i].textContent);
-    //document.querySelectorAll('.questoes label')[i].innerHTML = res;
+    //document.querySelectorAll('.questoes label')[i].innerHTML = res; // Subistitui até o input, preciso conseguir substituir somente o texto.
 }
 
 
@@ -51,6 +52,5 @@ for(var i =0; i < str.length; i++){
 //alert(document.getElementById("questoes").textContent);
 
 </script>
-
 
 {% endblock %}

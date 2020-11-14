@@ -4,7 +4,10 @@
 
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.media }}
-        {{ form.enunciado }}
+       Enunciado: {{ form.enunciado }}
+        <br>
+        Inserir texto: {{form.texto }} <a href="/cadastrar-texto/">Cadastrar</a><br><br>
+
         {{form.professor}}
         <br>
         Assunto da questão: {{ form.assunto }} <a href="/cadastrar-assunto/">+</a> <br><br>
@@ -32,19 +35,19 @@
         <button type="submit">Salvar</button>
     </form>
 
+{% endblock conteudo %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+
+      $(function() {
+          $('.inlineform').formset({
+              prefix: '{{form_alternativa.prefix}}',
+              addText: ' + Adicionar Alternativa',
+              deleteText: ' - Remover Alternativa',
+          });
+      })
+     </script>
+
 {% endblock %}
-
-        {% block scripts %}
-
-         <script type="text/javascript">
-
-            $(function() {
-                $('.inlineform').formset({
-                    prefix: '{{ form_alternativa.prefix }}',
-                    addText: ' + Adicionar Alternativa',
-                    deleteText: ' - Remover Alternativa',
-                });
-            })
-        </script>
-
-        {% endblock %}

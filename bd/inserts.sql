@@ -47,7 +47,7 @@ Socilogia
 
 insert into configuracoes(cabecalho,rodape,tipo_fonte,tamanho) values ('ola', 'mundo','TH',19);
 
-
+select q.enunciado, a.alternativa from questao q inner join alternativa a on q.id = a.questao_id where a.correta = 1;
 select * from questao;
 select * from disciplina;
 select * from assunto;

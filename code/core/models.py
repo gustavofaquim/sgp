@@ -14,7 +14,6 @@ class Area(models.Model):
     class Meta:
         db_table = "area"
 
-
 class Disciplina(models.Model):
     disciplina = models.CharField(max_length=250)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
@@ -25,7 +24,6 @@ class Disciplina(models.Model):
     class Meta:
         db_table = "disciplina"
 
-
 class Assunto(models.Model):
     assunto = models.CharField(max_length=400)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
@@ -35,6 +33,16 @@ class Assunto(models.Model):
 
     class Meta:
         db_table = "assunto"
+
+class Origem(models.Model):
+    origem = models.CharField(max_length=250)
+    ano = models.DateField()
+
+    def __str__(self):
+        return str(self.origem)
+
+    class Meta:
+        db_table = "origem"
 
 
 class Professor(models.Model):
@@ -55,13 +63,27 @@ class Professor(models.Model):
         verbose_name_plural = "Professores"
 
 
+class Texto(models.Model):
+    texto = models.TextField()
+    referencia = models.CharField(max_length=800)
+    assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.texto)
+
+    class Meta:
+        db_table = "texto"
+        verbose_name_plural = "Textos"
+
 class Questao(models.Model):
-    #enunciado = models.TextField()
+    enunciado = models.TextField()
     #enunciado = HTMLField()
-    enunciado = RichTextUploadingField()
+    #enunciado = RichTextUploadingField()
     imagem = models.ImageField(upload_to="questao/", null=True, blank=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
+    textos = models.ManyToManyField(Texto)
 
     def __str__(self):
         return str(self.enunciado)
@@ -119,3 +141,11 @@ class Prova(models.Model):
 
 #Inserir descrição para as provas
 #Inserir nome para as provas
+
+class Gabarito(models.Model):
+    prova = models.ForeignKey(Prova,on_delete=models.CASCADE, related_name="prova")
+    questoes = models.ManyToManyField(Questao)
+    alternativa_correta = models.ManyToManyField(Alternativa)
+
+    def __str__(self):
+        return str(self.id)
