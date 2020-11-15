@@ -69,6 +69,7 @@ class Questao(models.Model):
     #enunciado = RichTextUploadingField()
     imagem = models.ImageField(upload_to="questao/", null=True, blank=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
+    #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
 
@@ -84,6 +85,7 @@ class Alternativa(models.Model):
     correta = models.BooleanField(default=False)
     imagem = models.ImageField(upload_to="alternativa/", null=True, blank=True)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name='alternativas')
+    letra = models.CharField(max_length=1)
 
     def __str__(self):
         return str(self.alternativa)
