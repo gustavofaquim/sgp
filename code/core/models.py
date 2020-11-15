@@ -63,18 +63,6 @@ class Professor(models.Model):
         verbose_name_plural = "Professores"
 
 
-class Texto(models.Model):
-    texto = models.TextField()
-    referencia = models.CharField(max_length=800)
-    assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.texto)
-
-    class Meta:
-        db_table = "texto"
-        verbose_name_plural = "Textos"
-
 class Questao(models.Model):
     enunciado = models.TextField()
     #enunciado = HTMLField()
@@ -83,7 +71,6 @@ class Questao(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
-    textos = models.ManyToManyField(Texto)
 
     def __str__(self):
         return str(self.enunciado)
@@ -103,6 +90,20 @@ class Alternativa(models.Model):
 
     class Meta:
         db_table = "alternativa"
+
+
+class Texto(models.Model):
+    texto = models.TextField()
+    referencia = models.CharField(max_length=800)
+    #assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
+    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name='textos')
+
+    def __str__(self):
+        return str(self.texto)
+
+    class Meta:
+        db_table = "texto"
+        verbose_name_plural = "Textos"
 
 
 class Configuracoes(models.Model):

@@ -37,17 +37,15 @@ class AlternativaForm(forms.ModelForm):
 class TextoForm(forms.ModelForm):
     class Meta:
         model = Texto
-        fields = ['texto', 'referencia', 'assunto']
+        fields = '__all__'
 
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = ['enunciado','textos','imagem','assunto']
+        fields = ['enunciado','imagem','assunto']
         imagem = forms.ImageField()
-        widgtes = {
-            'textos': forms.ChoiceField()
-        }
+
 
 
 class ConfiguracoesForm(forms.ModelForm):

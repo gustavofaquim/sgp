@@ -236,7 +236,7 @@ def cadastro_questao(request):
         professor = Professor.objects.get(user_id=request.user)
         ids = []
         aux = Assunto.objects.filter(disciplina=0)
-        assuntos = "" #apagar essa linha de bugar
+        assuntos = "" #apagar essa linha se bugar
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
@@ -246,19 +246,26 @@ def cadastro_questao(request):
         form.fields["assunto"].queryset = assuntos
         form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=1)
         form_alternativa = form_alternativa_factory()
+        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=1)
+        form_texto = form_texto_factory()
+
 
         context = {
            'form': form,
            'form_alternativa': form_alternativa,
+           'form_texto': form_texto,
         }
 
-       #print(form)
+
         return render(request, "form-questao.html", context)
 
     elif request.method == "POST":
         form = QuestaoForm(request.POST,request.FILES)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES)
+        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm)
+        form_texto = form_texto_factory(request.POST)
+
 
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save(commit=False)
@@ -272,7 +279,8 @@ def cadastro_questao(request):
         else:
             context = {
                 'form': form,
-                'form_telefone': form_alternativa,
+                'form_texto': form_texto,
+                'form_alternativa': form_alternativa, #mudar primeiro para form_telefone se der algum erro
             }
             return render(request,'form-questao.html', context)
 

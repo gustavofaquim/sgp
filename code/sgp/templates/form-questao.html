@@ -6,7 +6,7 @@
         {{ form.media }}
        Enunciado: {{ form.enunciado }}
         <br>
-        Inserir texto: {{form.texto }} <a href="/cadastrar-texto/">Cadastrar</a><br><br>
+
 
         {{form.professor}}
         <br>
@@ -18,8 +18,18 @@
         <br> <br>
         {{ form.imagem }}
 
-        {{form_alternativa.management_form }}
+        {{form_texto.management_form}}
+        <div class="inlineform_texto">
+            {% for ft in form_texto %}
+                Texto: {{ft.texto}} <br>
+                Referencia: {{ft.referencia}}
+            <hr>
+        </div>
+         {% endfor %}
 
+
+
+        {{form_alternativa.management_form }}
         {% for fa in form_alternativa %}
         <div class="inlineform">
             <hr>
@@ -41,6 +51,16 @@
 
     <script type="text/javascript">
 
+
+      $(function() {
+          $('.inlineform_texto').formset({
+              prefix: '{{form_texto.prefix}}',
+              addText: ' + Adicionar Texto',
+              deleteText: ' - Remover Texto',
+          });
+      })
+
+
       $(function() {
           $('.inlineform').formset({
               prefix: '{{form_alternativa.prefix}}',
@@ -48,6 +68,8 @@
               deleteText: ' - Remover Alternativa',
           });
       })
+
+
      </script>
 
 {% endblock %}
