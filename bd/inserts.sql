@@ -7,7 +7,7 @@ insert into area(area) values ('Linguagens, Códigos e suas Tecnologias');
 insert into area(area) values ('Ciências da Natureza e suas Tecnologias');
 
 /*Disciplinas*/
-insert into disciplina(disciplina, area_id) values ('Química',4);
+insert into disciplina(disciplina,area_id) values ('Química',4);
 insert into disciplina(disciplina,area_id) values ('Física',4);
 insert into disciplina(disciplina,area_id) values ('Biologia',4);
 insert into disciplina(disciplina,area_id) values ('História',1);
@@ -37,7 +37,7 @@ geografia
 Ana Carla Souza
 ana@hotmail.com
 caralho123
-03/05/1998
+03/05/1998questao
 Socilogia
 */
 

@@ -100,7 +100,6 @@ def cadastrar_assunto(request):
         ids.append(disciplinas.id)
         disciplinas = aux | Disciplina.objects.filter(id=disciplinas.id)
 
-
     form.fields["disciplina"].queryset = disciplinas
 
     if form.is_valid():
@@ -129,12 +128,17 @@ def cadastrar_usuario(request):
             professor = form_professor.save(commit=False)
             usuario = form_usuario.save(commit=False)
             usuario.username = professor.email
+
             usuario.save()
 
             usuario_id = User.objects.get(id=usuario.id)
             professor.user = usuario_id
 
             professor.save()
+
+            if hasattr(form_professor, 'save_m2m'):
+                form_professor.save_m2m()
+
             return redirect('index')
     else:
         form_usuario = UserCreationForm()
@@ -178,7 +182,6 @@ def deletar_prof(request,cpf):
     user.delete()
 
     return redirect('index')
-
 
 #Crud alternativa
 @login_required(login_url='/login')
@@ -236,7 +239,8 @@ def cadastro_questao(request):
         professor = Professor.objects.get(user_id=request.user)
         ids = []
         aux = Assunto.objects.filter(disciplina=0)
-        assuntos = "" #apagar essa linha se bugar
+        assuntos = aux #apagar essa linha se bugar
+
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
