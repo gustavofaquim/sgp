@@ -15,7 +15,6 @@
           align-items:left;
           flex-direction: row;
           justify-content: center;
-          border: 1px solid red;
         }
         .cabecalho p {margin: 0;}
 
@@ -28,22 +27,35 @@
             margin: auto;
         }
 
-        .questao-enunciado{
-          border: 1px solid blue;
+        .questao-titulo{
+          font-weight: bold;
         }
 
+        .questao-enunciado{
+          margin-top: 50px;
+        }
         .questao-enunciado p{
           display: inline !important;
           font-family:
         }
 
-        .questoes img{
-            max-width:25%;
-            max-height:25%
+        .imagem-questao{
+          padding: 5px 5px 5px 5px;
+          width: 100px;
+          height: auto;
+          margin-top: 10px;
+          margin-bottom: 10px;
         }
         .itens{
-            list-style-type: lower-alpha;
+            list-style-type: none;
+            list-style: none;
+            list-style-position:inside;
+            margin-top: 25px;
+            margin-left: 0;
+            margin-right: 0;
+            padding:0;
         }
+        .itens li{margin-bottom: 10px;}
 
     </style>
 </head>
@@ -77,18 +89,18 @@
     <div class="questoes">
         {% for questoes in prova.questao.all %}
 
-             <div class='questao-enunciado' id='questao-enunciado'>Questão {{ forloop.counter }} - {{ questoes.enunciado | safe }}</div>
+             <div class='questao-enunciado' id='questao-enunciado'><span class="questao-titulo">Questão {{ forloop.counter }}</span> - {{ questoes.enunciado | safe }}</div>
              {% if questoes.imagem %}
-                <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">
+              <div class="imagem-questao">
+                  <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">
+              </div>
              {% endif%}
 
 
             <ol class="itens">
-            {% for alternativas in questoes.alternativas.all %}
-                <!-- <p>{% cycle 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' %} (   ) {{ alternativas.alternativa }} </p> -->
-                <li> (  ) {{ alternativas.alternativa }}</li>
-
-            {% endfor %}
+                {% for alternativas in questoes.alternativas.all %}
+                  <li> {{ alternativas.letra }} (  ) {{ alternativas.alternativa }}</li>
+                {% endfor %}
             </ol>
         {% endfor %}
     </div>
