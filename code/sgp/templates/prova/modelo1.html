@@ -89,7 +89,11 @@
     <div class="questoes">
         {% for questoes in prova.questao.all %}
 
-             <div class='questao-enunciado' id='questao-enunciado'><span class="questao-titulo">Questão {{ forloop.counter }}</span> - {{ questoes.enunciado | safe }}</div>
+             <div class='questao-enunciado' id='questao-enunciado'>
+               {% if questoes.origem %}  ({{questoes.origem.origem}} - {{questoes.origem.ano}}) {% endif%}
+               <span class="questao-titulo"> Questão {{ forloop.counter }}</span> - {{ questoes.enunciado | safe }}
+             </div>
+
              {% if questoes.imagem %}
               <div class="imagem-questao">
                   <img src="{{ questoes.imagem.url | safe }}" alt="Imagem aqui">

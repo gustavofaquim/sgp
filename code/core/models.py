@@ -69,7 +69,7 @@ class Questao(models.Model):
     #enunciado = RichTextUploadingField()
     imagem = models.ImageField(upload_to="questao/", null=True, blank=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
-    origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
+    origem = models.ForeignKey(Origem, on_delete=models.CASCADE, blank=True, null=True)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
 
     def __str__(self):

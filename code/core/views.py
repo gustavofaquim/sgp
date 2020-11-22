@@ -318,7 +318,7 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.FILES or None,instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=0)
         form_alternativa = form_alternativa_factory(instance=objeto)
-        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm)
+        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=0)
         form_texto = form_texto_factory(instance=objeto)
 
 
@@ -337,7 +337,7 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.POST,request.FILES, instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES, instance=objeto)
-        form_texto_factory = inlineformset_factory(Questao,Texto, form=ATextoForm)
+        form_texto_factory = inlineformset_factory(Questao,Texto, form=TextoForm)
         form_texto = form_texto_factory(request.POST,instance=objeto)
 
         if form.is_valid() and form_alternativa.is_valid():
@@ -355,6 +355,7 @@ def atualizar_quest(request,questao_id):
             context = {
                 'form': form,
                 'form_alternativa': form_alternativa,
+                'form_texto': form_texto,
             }
             return render(request, "form-questao.html", context)
 
