@@ -9,11 +9,17 @@ from .models import Area
 from .models import Configuracoes
 from .models import Assunto
 from .models import Texto
+from .models import Origem
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class AreaForm(forms.ModelForm):
     class Meta:
         model = Area
+        fields = '__all__'
+
+class OrigemForm(forms.ModelForm):
+    class Meta:
+        model = Origem
         fields = '__all__'
 
 class AssuntoForm(forms.ModelForm):
@@ -43,7 +49,7 @@ class TextoForm(forms.ModelForm):
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = ['enunciado','imagem','assunto']
+        fields = ['enunciado','imagem','assunto', 'origem']
         imagem = forms.ImageField()
 
 

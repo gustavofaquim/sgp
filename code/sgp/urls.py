@@ -13,6 +13,7 @@ urlpatterns = [
     #CRUD AREA
     path('cadastro_area/', views.cadastro_area),
     path('cadastrar-assunto/', views.cadastrar_assunto, name='cadastrar-assunto'),
+    path('cadastrar-origem/', views.cadastrar_origem, name='cadastrar-origem'),
     path('cadastrar-texto/', views.cadastrar_texto, name='cadastrar-texto'),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
@@ -27,6 +28,7 @@ urlpatterns = [
     #path('deletar_alternativa/<int:id>/', views.deletar_alter, name='deletar_alternativa'),
     #Crud questao
     path('cadastro-questao/', views.cadastro_questao, name='cadastro-questao'),
+    path('cadastro_assunto/', views.cadastro_questao, name='cadastro-assunto'),
     path('lista_questao/', views.lista_questao, name='lista_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),

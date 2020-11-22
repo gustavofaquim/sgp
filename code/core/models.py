@@ -36,7 +36,7 @@ class Assunto(models.Model):
 
 class Origem(models.Model):
     origem = models.CharField(max_length=250)
-    ano = models.DateField()
+    ano = models.CharField(max_length=4)
 
     def __str__(self):
         return str(self.origem)
@@ -69,9 +69,8 @@ class Questao(models.Model):
     #enunciado = RichTextUploadingField()
     imagem = models.ImageField(upload_to="questao/", null=True, blank=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
-    #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
+    origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    #origem = models.ForeignKey(Origem, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.enunciado)
@@ -96,7 +95,7 @@ class Alternativa(models.Model):
 
 class Texto(models.Model):
     texto = models.TextField()
-    referencia = models.CharField(max_length=800)
+    referencia = models.CharField(max_length=800, blank=True, null=True)
     #assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name='textos')
 

@@ -37,7 +37,7 @@ geografia
 Ana Carla Souza
 ana@hotmail.com
 caralho123
-03/05/1998questao
+03/05/1998
 Socilogia
 */
 

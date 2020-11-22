@@ -69,6 +69,15 @@ def cadastro_area(request):
 
 
 @login_required(login_url='/login')
+def cadastrar_origem(request):
+    form = OrigemForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('/cadastro-questao/')
+    return render(request, 'forms.html', {'form':form})
+
+@login_required(login_url='/login')
 def cadastrar_texto(request):
     form = TextoForm(request.POST or None)
 
@@ -183,6 +192,8 @@ def deletar_prof(request,cpf):
 
     return redirect('index')
 
+
+
 #Crud alternativa
 @login_required(login_url='/login')
 def cadastro_alternativa(request):
@@ -279,6 +290,11 @@ def cadastro_questao(request):
 
             form_alternativa.instance = questao
             form_alternativa.save()
+
+            if form_texto.is_valid():
+                 form_texto.instance = questao
+                 form_texto.save()
+
             return redirect(reverse('lista_questao'))
         else:
             context = {
@@ -302,9 +318,13 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.FILES or None,instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=0)
         form_alternativa = form_alternativa_factory(instance=objeto)
+        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm)
+        form_texto = form_texto_factory(instance=objeto)
+
 
         context = {
             'form': form,
+            'form_texto': form_texto,
             'form_alternativa': form_alternativa,
         }
         return render(request, "form-questao.html", context)
@@ -317,11 +337,18 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.POST,request.FILES, instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES, instance=objeto)
+        form_texto_factory = inlineformset_factory(Questao,Texto, form=ATextoForm)
+        form_texto = form_texto_factory(request.POST,instance=objeto)
 
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save()
             form_alternativa.instance = questao
             form_alternativa.save()
+
+            if form_texto.is_valid():
+                form_texto.instance = questao
+                form_texto.save()
+
             return redirect(reverse('lista_questao'))
 
         else:
