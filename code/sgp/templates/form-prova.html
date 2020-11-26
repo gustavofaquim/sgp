@@ -3,11 +3,11 @@
 
 {% block conteudo %}
      <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-           Apelido: <br> {{form.apelido}} <br><br>
+           Nome da prova: <br> {{form.apelido}} <br><br>
            Data: <br>{{form.data}} <br><br>
            Valor:  <br>{{form.valor}} <br><br>
            Observações: <br>{{form.observacao}} <br><br>
-           Configurações:<br> {{form.configuracoes}} <a href="/cadastro_configs/">+</a> <br><br>
+           Cabeçalho:<br> {{form.cabecalho}} <a href="/cadastro_cabecalho/">+</a> <br><br>
            Disciplina: {{form.disciplina}} <br><br>
            Questões <br> {{form.questao}}<br><br>
 

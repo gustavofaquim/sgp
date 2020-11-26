@@ -1,36 +1,29 @@
 from django import forms
 from django.contrib.auth.models import User
-
-from .models import Professor
-from .models import Alternativa
-from .models import Questao
-from .models import Prova
-from .models import Area
-from .models import Configuracoes
-from .models import Assunto
-from .models import Texto
-from .models import Origem
+from .models import *
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-class AreaForm(forms.ModelForm):
-    class Meta:
-        model = Area
-        fields = '__all__'
 
 class OrigemForm(forms.ModelForm):
     class Meta:
         model = Origem
         fields = '__all__'
 
-class AssuntoForm(forms.ModelForm):
+class CategoriaForm(forms.ModelForm):
     class Meta:
-        model = Assunto
+        model = Categoria
         fields = '__all__'
+
+class SubCategoriaForm(forms.ModelForm):
+    class Meta:
+        model = SubCategoria
+        fields = '__all__'
+
 
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = ('cpf','nome','email','nascimento','foto','disciplina','foto')
+        fields = ('cpf','nome','email','nascimento','foto','disciplina')
         foto = forms.ImageField()
 
 
@@ -40,29 +33,22 @@ class AlternativaForm(forms.ModelForm):
         fields = '__all__'
         imagem = forms.ImageField()
 
-class TextoForm(forms.ModelForm):
-    class Meta:
-        model = Texto
-        fields = '__all__'
-
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
-        fields = ['enunciado','imagem','assunto', 'origem']
-        imagem = forms.ImageField()
+        fields = ['nome','enunciado','categoria','subcategoria','origem','tag']
 
 
-
-class ConfiguracoesForm(forms.ModelForm):
+class CabecalhoForm(forms.ModelForm):
     class Meta:
-        model = Configuracoes
+        model = Cabecalho
         fields = '__all__'
 
 class ProvaForm(forms.ModelForm):
     class Meta:
         model = Prova
-        fields = ['apelido','data','valor','observacao','disciplina','configuracoes','questao']
+        fields = ['nome','observacao','disciplina','cabecalho','questao', 'tipo']
         widgets = {
             'questao': forms.CheckboxSelectMultiple(attrs={
             'id': 'questoes',

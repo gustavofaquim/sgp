@@ -261,14 +261,14 @@ def cadastro_questao(request):
         form.fields["assunto"].queryset = assuntos
         form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=1)
         form_alternativa = form_alternativa_factory()
-        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=1)
-        form_texto = form_texto_factory()
+        #form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=1)
+        #form_texto = form_texto_factory()
 
 
         context = {
            'form': form,
            'form_alternativa': form_alternativa,
-           'form_texto': form_texto,
+           #'form_texto': form_texto,
         }
 
 
@@ -278,8 +278,7 @@ def cadastro_questao(request):
         form = QuestaoForm(request.POST,request.FILES)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES)
-        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm)
-        form_texto = form_texto_factory(request.POST)
+
 
 
         if form.is_valid() and form_alternativa.is_valid():
@@ -291,15 +290,10 @@ def cadastro_questao(request):
             form_alternativa.instance = questao
             form_alternativa.save()
 
-            if form_texto.is_valid():
-                 form_texto.instance = questao
-                 form_texto.save()
-
             return redirect(reverse('lista_questao'))
         else:
             context = {
                 'form': form,
-                'form_texto': form_texto,
                 'form_alternativa': form_alternativa, #mudar primeiro para form_telefone se der algum erro
             }
             return render(request,'form-questao.html', context)
@@ -318,13 +312,11 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.FILES or None,instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm, extra=0)
         form_alternativa = form_alternativa_factory(instance=objeto)
-        form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=0)
-        form_texto = form_texto_factory(instance=objeto)
+
 
 
         context = {
             'form': form,
-            'form_texto': form_texto,
             'form_alternativa': form_alternativa,
         }
         return render(request, "form-questao.html", context)
@@ -337,17 +329,12 @@ def atualizar_quest(request,questao_id):
         form = QuestaoForm(request.POST,request.FILES, instance=objeto)
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES, instance=objeto)
-        form_texto_factory = inlineformset_factory(Questao,Texto, form=TextoForm)
-        form_texto = form_texto_factory(request.POST,instance=objeto)
 
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save()
             form_alternativa.instance = questao
             form_alternativa.save()
 
-            if form_texto.is_valid():
-                form_texto.instance = questao
-                form_texto.save()
 
             return redirect(reverse('lista_questao'))
 
@@ -355,7 +342,7 @@ def atualizar_quest(request,questao_id):
             context = {
                 'form': form,
                 'form_alternativa': form_alternativa,
-                'form_texto': form_texto,
+
             }
             return render(request, "form-questao.html", context)
 
@@ -375,18 +362,18 @@ def deletar_quest(request,id):
     return redirect('/lista_questao/')
 
 @login_required(login_url='/login')
-def cadastro_configs(request):
+def cadastro_cabecalho(request):
     if request.method == "GET":
-        form = ConfiguracoesForm()
+        form = CabecalhoForm()
 
         context = {
             'form': form,
         }
 
-        return render(request, "configuracoes.html", context)
+        return render(request, "form.html", context)
 
     elif request.method == "POST":
-        form = ConfiguracoesForm(request.POST,request.FILES)
+        form = CabecalhoForm(request.POST,request.FILES)
 
         if form.is_valid():
             form.save()

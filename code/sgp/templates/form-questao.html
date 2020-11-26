@@ -11,23 +11,13 @@
 
         {{form.professor}}
         <br>
-        Assunto da questão: {{ form.assunto }} <a href="/cadastrar-assunto/">+</a> <br><br>
+        Assunto da questão: {{ form.categoria }} <a href="/cadastrar-assunto/">+</a> <br><br>
 
         {% if form.imagem.value.url != False %}
             <img style='width:200px' src='{{form.imagem.value.url}}' alt="">
         {% endif %}
         <br> <br>
         {{ form.imagem }}
-
-        {{form_texto.management_form}}
-        <div class="inlineform_texto">
-            {% for ft in form_texto %}
-                Texto: {{ft.texto}} <br>
-                Referencia: {{ft.referencia}}
-            <hr>
-        </div>
-         {% endfor %}
-
 
 
         {{form_alternativa.management_form }}

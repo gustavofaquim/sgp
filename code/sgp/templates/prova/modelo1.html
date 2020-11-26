@@ -91,7 +91,17 @@
 
              <div class='questao-enunciado' id='questao-enunciado'>
                {% if questoes.origem %}  ({{questoes.origem.origem}} - {{questoes.origem.ano}}) {% endif%}
-               <span class="questao-titulo"> Questão {{ forloop.counter }}</span> - {{ questoes.enunciado | safe }}
+               <span class="questao-titulo"> Questão {{ forloop.counter }}</span>
+
+                 {% if questoes.textos %}
+                     {% for textos in questoes.textos.all %}
+                        {{textos.texto}}
+                     {% endfor %}
+                    <br>
+                 {% endif %}
+
+                 {{ questoes.enunciado | safe }}
+
              </div>
 
              {% if questoes.imagem %}
