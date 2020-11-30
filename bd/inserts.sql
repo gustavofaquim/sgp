@@ -29,6 +29,9 @@ insert into categoria(categoria,disciplina_id) values ('Equações', 9);
 /*SubCategoria*/
 insert into subcategoria(subcategoria, categoria_id) values ('Manifesto Comunista', 1);
 
+
+insert into tag(tag) values ('classes');
+
 /*Profesosres
 12459865401
 Roberto Carlos
@@ -40,8 +43,8 @@ geografia
 54789654132
 Ana Carla Souza
 ana@hotmail.com
-caralho123
-03/05/1998
+
+
 Socilogia
 */
 
@@ -57,6 +60,7 @@ desc questao;
 select * from disciplina;
 select * from categoria;
 select * from subcategoria;
+select * from tag;
 select * from questao;
 select * from alternativa;
 select * from prova;

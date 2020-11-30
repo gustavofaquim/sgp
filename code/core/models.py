@@ -80,7 +80,7 @@ class Questao(models.Model):
     subcategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE, blank=True, null=True)
     origem = models.ForeignKey(Origem, on_delete=models.CASCADE, blank=True, null=True)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    tag = models.ManyToManyField(Tag, null=False, blank=False)
 
     def __str__(self):
         return str(self.nome)

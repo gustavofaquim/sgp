@@ -4,6 +4,7 @@
 
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.media }}
+        Nome: {{form.nome}} <br>
        Enunciado: {{ form.enunciado }}
         <br>
         Origem: {{form.origem}} <a href="/cadastrar-origem/">+</a>
@@ -11,8 +12,8 @@
 
         {{form.professor}}
         <br>
-        Assunto da questão: {{ form.categoria }} <a href="/cadastrar-assunto/">+</a> <br><br>
-
+        Categoria: {{ form.categoria }} <a href="/cadastrar-categoria/">+</a> SubCategoria {{form.subcategoria}} <br><br>
+        Tag: {{form.tag}}
         {% if form.imagem.value.url != False %}
             <img style='width:200px' src='{{form.imagem.value.url}}' alt="">
         {% endif %}

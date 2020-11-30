@@ -16,7 +16,7 @@ from django.http import HttpResponse
 import json
 from .models import *
 from .form import *
-
+from django.http import JsonResponse
 
 def logar_usuario(request):
     if request.method == "POST":
@@ -42,19 +42,36 @@ def index(request):
     return render(request, 'index.html')
 
 @login_required(login_url='/login')
-def filtro_assunto(request):
+def filtro_categoria(request):
     professor = Professor.objects.get(user_id=request.user)
     ids = []
-    aux = Assunto.objects.filter(disciplina=0)
+    aux = Categoria.objects.filter(disciplina=0)
 
     for disciplinas in professor.disciplina.all():
         ids.append(disciplinas.id)
-        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+        categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
 
     form = ProvaForm()
 
-    form.fields["assunto"].queryset = assuntos
+    form.fields["categoria"].queryset = categorias
     form.fields["disciplina"].queryset = professor.disciplina
+
+
+@login_required(login_url='/login')
+def busca(request):
+    if request.method=="POST":
+        search_str=json.loads(request.body).get('busca')
+
+        questoes = Questao.objects.filter(
+            nome__icontains=search_str, professor=request.user) | Questao.objects.filter(
+            enunciado__icontains=search_str, professor=request.user) | Questao.objects.filter(
+            categoria__icontains=search_str, professor=request.user) | Questao.objects.filter(
+            subcategoria__icontains=search_str, professor=request.user) | Questao.objects.filter(
+            origem__icontains=search_str, professor=request.user) | Questao.objects.filter(
+            tag__icontains=search_str, professor=request.user)
+
+        data = questoes.values()
+        return JsonResponse(list(data), safe=False)
 
 
 #CRUD AREA
@@ -83,13 +100,13 @@ def cadastrar_texto(request):
 
     professor = Professor.objects.get(user_id=request.user)
     ids = []
-    aux = Assunto.objects.filter(id=0)
+    aux = Categoria.objects.filter(id=0)
 
     for disciplinas in professor.disciplina.all():
         ids.append(disciplinas.id)
-        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+        categoria = aux | Categoria.objects.filter(disciplina=disciplinas.id)
 
-    form.fields["assunto"].queryset = assuntos
+    form.fields["categoria"].queryset = categorias
 
     if form.is_valid():
         form.save()
@@ -98,9 +115,9 @@ def cadastrar_texto(request):
 
 
 @login_required(login_url='/login')
-def cadastrar_assunto(request):
+def cadastrar_categoria(request):
 
-    form = AssuntoForm(request.POST or None)
+    form = CategoriaForm(request.POST or None)
     professor = Professor.objects.get(user_id=request.user)
     ids = []
     aux = Disciplina.objects.filter(id=0)
@@ -249,16 +266,16 @@ def cadastro_questao(request):
     if request.method == "GET":
         professor = Professor.objects.get(user_id=request.user)
         ids = []
-        aux = Assunto.objects.filter(disciplina=0)
-        assuntos = aux #apagar essa linha se bugar
+        aux = Categoria.objects.filter(disciplina=0)
+        categorias = aux #apagar essa linha se bugar
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
-            assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+            categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
 
         form = QuestaoForm()
 
-        form.fields["assunto"].queryset = assuntos
+        form.fields["categoria"].queryset = categorias
         form_alternativa_factory = inlineformset_factory(Questao,Alternativa,form=AlternativaForm, extra=1)
         form_alternativa = form_alternativa_factory()
         #form_texto_factory = inlineformset_factory(Questao, Texto, form=TextoForm, extra=1)
@@ -279,12 +296,11 @@ def cadastro_questao(request):
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES)
 
-
-
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save(commit=False)
             professor = Professor.objects.get(user_id=request.user)
             questao.professor = professor
+
             questao.save()
 
             form_alternativa.instance = questao
@@ -297,7 +313,6 @@ def cadastro_questao(request):
                 'form_alternativa': form_alternativa, #mudar primeiro para form_telefone se der algum erro
             }
             return render(request,'form-questao.html', context)
-
 
 
 
@@ -323,6 +338,7 @@ def atualizar_quest(request,questao_id):
 
     elif request.method == "POST":
         objeto = Questao.objects.filter(id=questao_id).first()
+
         if objeto is None:
             return redirect(reverse('lista_questao'))
 
@@ -330,6 +346,8 @@ def atualizar_quest(request,questao_id):
         form_alternativa_factory = inlineformset_factory(Questao, Alternativa, form=AlternativaForm)
         form_alternativa = form_alternativa_factory(request.POST,request.FILES, instance=objeto)
 
+        print("\n\n\n",form_alternativa.errors,"\n\n\n")
+        
         if form.is_valid() and form_alternativa.is_valid():
             questao = form.save()
             form_alternativa.instance = questao
@@ -351,7 +369,10 @@ def lista_questao(request):
 
     professor = Professor.objects.get(user_id=request.user)
     questoes = Questao.objects.filter(professor=professor)
-    #Questao.objects.filter(assunto=assunt_quest.id)
+
+    busca = request.GET.get("busca")
+    if busca:
+        questoes = Questao.objects.filter(nome__icontains=busca)
 
     return render(request, 'questao.html', {'questoes': questoes})
 
@@ -388,22 +409,22 @@ def cadastro_prova(request):
     if request.method == "GET":
         professor = Professor.objects.get(user_id=request.user)
         ids = []
-        aux = Assunto.objects.filter(disciplina=0)
-        aux2 = Questao.objects.filter(assunto=0)
-        questoes = Questao.objects.filter(assunto=0)
+        aux = Categoria.objects.filter(disciplina=0)
+        aux2 = Questao.objects.filter(categoria=0)
+        questoes = Questao.objects.filter(categoria=0)
 
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
-            assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
-            for assunt_quest in assuntos:
+            categorias = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+            for categoria_quest in categorias:
                 #print(assunt_quest)
-                questoes = questoes| aux2 | Questao.objects.filter(assunto=assunt_quest.id)
-                #print("\n Questões:", Questao.objects.filter(assunto=assunt_quest.id))
+                questoes = questoes| aux2 | Questao.objects.filter(categoria=categoria_quest.id)
+
 
         form = ProvaForm()
 
-        #form.fields["assunto"].queryset = assuntos
+
         form.fields["disciplina"].queryset = professor.disciplina
         form.fields["questao"].queryset = questoes
 
@@ -435,14 +456,14 @@ def atualizar_prov(request,id):
 
     professor = Professor.objects.get(user_id=request.user)
     ids = []
-    aux = Assunto.objects.filter(disciplina=0)
-    aux2 = Questao.objects.filter(assunto=0)
+    aux = Categoria.objects.filter(disciplina=0)
+    aux2 = Questao.objects.filter(categoria=0)
 
     for disciplinas in professor.disciplina.all():
         ids.append(disciplinas.id)
-        assuntos = aux | Assunto.objects.filter(disciplina=disciplinas.id)
-        for assunt_quest in assuntos:
-            questoes = aux2 | Questao.objects.filter(assunto=assunt_quest.id)
+        categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
+        for categoria_quest in categorias:
+            questoes = aux2 | Questao.objects.filter(categoria=categoria_quest.id)
 
 
     prova = Prova.objects.get(id=id)

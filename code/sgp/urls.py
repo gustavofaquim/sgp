@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout',views.deslogar_usuario, name='logout'),
     #CRUD AREA
     path('cadastro_area/', views.cadastro_area),
-    path('cadastrar-assunto/', views.cadastrar_assunto, name='cadastrar-assunto'),
+    path('cadastrar-categoria/', views.cadastrar_categoria, name='cadastrar-categoria'),
     path('cadastrar-origem/', views.cadastrar_origem, name='cadastrar-origem'),
     path('cadastrar-texto/', views.cadastrar_texto, name='cadastrar-texto'),
     path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('atualizar_professor/<int:id>/', views.atualizar_prof, name='atualizar_professor'),
     path('deletar_professor/<int:cpf>', views.deletar_prof, name='deletar_professor'),
     path('cadastro-questao/', views.cadastro_questao, name='cadastro-questao'),
-    path('cadastro_assunto/', views.cadastro_questao, name='cadastro-assunto'),
+    #path('cadastro_assunto/', views.cadastro_questao, name='cadastro-assunto'),
     path('lista_questao/', views.lista_questao, name='lista_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),

@@ -1,39 +1,41 @@
 {% extends "_layouts/base.html" %}
-
+{% load static %}
 {% block title %}Questões{% endblock %}
 
 {% block conteudo %}
 
-        {% for questao in questoes %}
-          <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
-          <!-- {{questao.id}} |{{questao.enunciado | safe}}-->
-            {{questao.enunciado}}
+        <form action="" method="GET">
+            <input type="text" name="busca" id="busca">
+            <input type="submit" value="Buscar">
+        </form>
 
-          </a>
+        <div id="resultado">
+            {% for questao in questoes %}
+                <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
+                <!-- {{questao.id}} |{{questao.enunciado | safe}}-->
+                {{questao.nome}}
 
-          <ul>
-            {% for a in questao.alternativas.all %}
-            <li>{{a.alternativa}}</li>
+                </a>
+
+                <!--<ul> Exibe as alternativas da questao
+                    {% for a in questao.alternativas.all %}
+                    <li>{{a.alternativa}}</li>
+                {% endfor %}
+                </ul> -->
+
             {% endfor %}
-          </ul>
+        </div>
 
-        {% endfor %}
-
-
-    <a href="/cadastro-questao/">Cadastro</a>
+<br><br>
+    <a href="/cadastro-questao/">+ Questão Objetiva</a>
+    <a href="/cadastro-questao/">+ Questão Discursiva</a>
 {% endblock %}
 
 {% block scripts %}
 
-<script>
 
-var str = document.getElementsByClassName('lista_questoes');
-for(var i=0; i< str.length; i++){
-  var res = str[i].textContent.replace(/(<([^>]+)>)/gi,"")
-  document.getElementsByClassName('lista_questoes')[i].innerHTML = res;
-}
+<script src="{% static 'js/buscaQuestao.js' %}"></script>
 
-</script>
 
 
 {% endblock %}
