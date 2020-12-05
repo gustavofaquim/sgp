@@ -32,9 +32,15 @@
 {% endblock %}
 
 {% block scripts %}
-
-
-<script src="{% static 'js/buscaQuestao.js' %}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function(){
+      $("busca").autocomplete({
+        source: '{% url 'busca_questao' %}'
+      });
+    });
+</script>
 
 
 

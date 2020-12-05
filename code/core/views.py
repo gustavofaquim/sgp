@@ -60,7 +60,7 @@ def filtro_categoria(request):
 @login_required(login_url='/login')
 def busca(request):
     if request.method=="POST":
-        search_str=json.loads(request.body).get('busca')
+        #search_str=json.loads(request.body).get('busca')
 
         questoes = Questao.objects.filter(
             nome__icontains=search_str, professor=request.user) | Questao.objects.filter(

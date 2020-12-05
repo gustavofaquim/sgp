@@ -24,6 +24,7 @@ urlpatterns = [
     path('cadastro-questao/', views.cadastro_questao, name='cadastro-questao'),
     #path('cadastro_assunto/', views.cadastro_questao, name='cadastro-assunto'),
     path('lista_questao/', views.lista_questao, name='lista_questao'),
+    path('busca_questao/', views.busca, name='busca_questao'),
     path('atualizar_questao/<int:questao_id>', views.atualizar_quest, name='atualizar_questao'),
     path('deletar_questao/<int:id>', views.deletar_quest, name='deletar_questao'),
     #Crud prova
