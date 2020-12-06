@@ -10,12 +10,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',views.logar_usuario, name='login'),
     path('logout',views.deslogar_usuario, name='logout'),
-    #CRUD AREA
-    path('cadastro_area/', views.cadastro_area),
+
     path('cadastrar-categoria/', views.cadastrar_categoria, name='cadastrar-categoria'),
     path('cadastrar-origem/', views.cadastrar_origem, name='cadastrar-origem'),
-    path('cadastrar-texto/', views.cadastrar_texto, name='cadastrar-texto'),
-    path('lista_disciplina/', views.lista_disciplina, name='lista_disciplina'),
     #Crud professor
     path('cadastrar_usuario/', views.cadastrar_usuario, name="cadastrar_usuario"),
     path('alterar_senha', views.alterar_senha, name='alterar_senha'),

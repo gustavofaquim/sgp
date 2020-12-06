@@ -96,20 +96,11 @@ def cadastrar_origem(request):
 
 
 
-
 @login_required(login_url='/login')
 def cadastrar_categoria(request):
-
     form = CategoriaForm(request.POST or None)
     professor = Professor.objects.get(user_id=request.user)
-    ids = []
-    aux = Disciplina.objects.filter(id=0)
-
-    for disciplinas in professor.disciplina.all():
-        ids.append(disciplinas.id)
-        disciplinas = aux | Disciplina.objects.filter(id=disciplinas.id)
-
-    form.fields["disciplina"].queryset = disciplinas
+    form.fields["disciplina"].queryset = professor.disciplina
 
     if form.is_valid():
         form.save()
@@ -117,16 +108,8 @@ def cadastrar_categoria(request):
     return render(request, 'forms.html',{'form': form})
 
 
-#CRUD DISCIPLINAS
-@login_required(login_url='/login')
-def lista_disciplina(request):
-    disciplina = Disciplina.objects.all()
-    area = Area.objects.all()
-    return (request, 'lista.html', {'disciplina': disciplina, 'area': area})
 
 #Crud professor
-
-
 def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
@@ -399,7 +382,7 @@ def cadastro_prova(request):
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
-            categorias = aux | Assunto.objects.filter(disciplina=disciplinas.id)
+            categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
             for categoria_quest in categorias:
                 #print(assunt_quest)
                 questoes = questoes| aux2 | Questao.objects.filter(categoria=categoria_quest.id)
