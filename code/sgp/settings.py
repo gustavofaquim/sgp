@@ -81,7 +81,8 @@ WSGI_APPLICATION = 'sgp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'sgp',
         'USER': 'root',
         'PASSWORD': '123456789',

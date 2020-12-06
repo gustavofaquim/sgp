@@ -27,7 +27,7 @@ insert into categoria(categoria,disciplina_id) values ('Vegetação',5);
 insert into categoria(categoria,disciplina_id) values ('Equações', 9);
 
 /*SubCategoria*/
-insert into subcategoria(subcategoria, categoria_id) values ('Manifesto Comunista', 1);
+insert into subcategoria(subcategoria, categoria_id) values ('Manifesto Comunista', 3);
 
 
 insert into tag(tag) values ('classes');
