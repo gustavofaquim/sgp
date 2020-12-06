@@ -58,9 +58,19 @@ def filtro_categoria(request):
 
 
 @login_required(login_url='/login')
-def busca(request):
+def busca_questao(request):
+
+    if request.method == "GET":
+        query_original = request.GET.get('term')
+        questoes = Questao.objects.filter(nome__icontains=query_original)
+        mylist = []
+        mylist += [x.nome for x in questoes]
+
+        return JsonResponse(mylist, safe=False)
+
     if request.method=="POST":
-        #search_str=json.loads(request.body).get('busca')
+
+        search_str=json.loads(request.body).get('busca')
 
         questoes = Questao.objects.filter(
             nome__icontains=search_str, professor=request.user) | Questao.objects.filter(

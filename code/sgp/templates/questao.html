@@ -5,7 +5,7 @@
 {% block conteudo %}
 
         <form action="" method="GET">
-            <input type="text" name="busca" id="busca">
+            <input type="text" name="busca" id="tags">
             <input type="submit" value="Buscar">
         </form>
 
@@ -14,8 +14,8 @@
                 <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
                 <!-- {{questao.id}} |{{questao.enunciado | safe}}-->
                 {{questao.nome}}
-
                 </a>
+            <br>
 
                 <!--<ul> Exibe as alternativas da questao
                     {% for a in questao.alternativas.all %}
@@ -36,7 +36,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function(){
-      $("busca").autocomplete({
+
+      $("#tags").autocomplete({
         source: '{% url 'busca_questao' %}'
       });
     });
