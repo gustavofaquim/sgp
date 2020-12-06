@@ -84,16 +84,6 @@ def busca_questao(request):
         return JsonResponse(list(data), safe=False)
 
 
-#CRUD AREA
-@login_required(login_url='/login')
-def cadastro_area(request):
-    form = AreaForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('/lista_areas/')
-    return render(request, 'forms.html', {'form': form})
-
 
 @login_required(login_url='/login')
 def cadastrar_origem(request):
@@ -104,24 +94,7 @@ def cadastrar_origem(request):
         return redirect('/cadastro-questao/')
     return render(request, 'forms.html', {'form':form})
 
-@login_required(login_url='/login')
-def cadastrar_texto(request):
-    form = TextoForm(request.POST or None)
 
-    professor = Professor.objects.get(user_id=request.user)
-    ids = []
-    aux = Categoria.objects.filter(id=0)
-
-    for disciplinas in professor.disciplina.all():
-        ids.append(disciplinas.id)
-        categoria = aux | Categoria.objects.filter(disciplina=disciplinas.id)
-
-    form.fields["categoria"].queryset = categorias
-
-    if form.is_valid():
-        form.save()
-        return redirect('/index/')
-    return render(request, 'forms.html', {'form': form})
 
 
 @login_required(login_url='/login')
