@@ -7,7 +7,53 @@
            Observações: <br>{{form.observacao}} <br><br>
            Cabeçalho:<br> {{form.cabecalho}} <a href="/cadastro_cabecalho/">+</a> <br><br>
            Disciplina: {{form.disciplina}} <br><br>
-           Questões <br> {{form.questao}}<br><br>
+           Tipo: {{form.tipo}} <br><br>
+
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+           Adicionar questões
+        </button>
+
+
+
+         <!-- Modal -->
+         <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Questões</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                   {{ form.questao }}
+
+                    <form action="" method="GET">
+                        <input type="text" name="busca" id="tags">
+                        <input type="submit" value="Buscar">
+                    </form>
+
+                    <div id="resultado">
+                        {% for questao in questoes %}
+                        <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
+                        {{questao.nome}}
+                        </a>
+                        {% endfor %}
+                    </div>
+
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                 <button type="button" class="btn btn-primary">Adicionar questões</button>
+               </div>
+             </div>
+        </div>
+      </div>
+
+
+
+
+
 
          <button type="submit">Salvar</button>
      </form>
@@ -29,26 +75,14 @@
 
 {% block scripts %}
 
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-
-var str = document.querySelectorAll('.questoes label');
-//console.log(str.length);
-
-for(var i =0; i < str.length; i++){
-    var res = str[i].textContent.replace(/(<([^>]+)>)/gi,"");
-    //console.log("FILHOS: ",str[i].textContent);
-    //console.log(document.querySelectorAll('.questoes label')[i].textContent);
-    //document.querySelectorAll('.questoes label')[i].innerHTML = res; // Subistitui até o input, preciso conseguir substituir somente o texto.
-}
-
-
-
-//var res = str.replace(/(<([^>]+)>)/gi,"");
-
-//document.getElementById("texto").innerHTML = res;
-
-//alert(document.getElementById("questoes").textContent);
-
+    $(function(){
+      $("#tags").autocomplete({
+        source: '{% url 'busca_questao' %}'
+      });
+    });
 </script>
 
 {% endblock %}
