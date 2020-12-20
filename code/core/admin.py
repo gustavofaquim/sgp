@@ -37,7 +37,7 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
 
         #print(prova.questao.get(id=2).imagem)
 
-        html_string = render_to_string('prova/modelo1.html', {'prova': prova})
+        html_string = render_to_string('modelo_prova/modelo1.html', {'prova': prova})
         html = HTML(string=html_string,base_url=request.build_absolute_uri('/'))
         html.write_pdf(target='/tmp/{}.pdf'.format(prova));
         
@@ -54,7 +54,7 @@ class ProvaAdmin(DjangoObjectActions,admin.ModelAdmin):
        print("Ola mundo")
        tamanho = prova.configuracoes.tamanho
        fonte = prova.configuracoes.tipo_fonte
-       return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
+       return render(request,'modelo_prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
 
 
 

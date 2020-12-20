@@ -58,7 +58,7 @@ def filtro_categoria(request):
 
 
 @login_required(login_url='/login')
-def busca_questao(request):
+def   busca_questao(request):
 
     if request.method == "GET":
         query_original = request.GET.get('term')
@@ -66,23 +66,8 @@ def busca_questao(request):
         mylist = []
         mylist += [x.nome for x in questoes]
 
+        print(request.GET)
         return JsonResponse(mylist, safe=False)
-
-    if request.method=="POST":
-
-        search_str=json.loads(request.body).get('busca')
-
-        questoes = Questao.objects.filter(
-            nome__icontains=search_str, professor=request.user) | Questao.objects.filter(
-            enunciado__icontains=search_str, professor=request.user) | Questao.objects.filter(
-            categoria__icontains=search_str, professor=request.user) | Questao.objects.filter(
-            subcategoria__icontains=search_str, professor=request.user) | Questao.objects.filter(
-            origem__icontains=search_str, professor=request.user) | Questao.objects.filter(
-            tag__icontains=search_str, professor=request.user)
-
-        data = questoes.values()
-        return JsonResponse(list(data), safe=False)
-
 
 
 @login_required(login_url='/login')
@@ -379,13 +364,18 @@ def cadastro_prova(request):
         aux2 = Questao.objects.filter(categoria=0)
         questoes = Questao.objects.filter(categoria=0)
 
+        busca = request.GET.get("busca")
+
 
         for disciplinas in professor.disciplina.all():
             ids.append(disciplinas.id)
             categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
             for categoria_quest in categorias:
                 #print(assunt_quest)
-                questoes = questoes| aux2 | Questao.objects.filter(categoria=categoria_quest.id)
+                if busca:
+                    questoes = Questao.objects.filter(nome__icontains=busca)
+                else:
+                    questoes = questoes| aux2 | Questao.objects.filter(categoria=categoria_quest.id)
 
 
         form = ProvaForm()
@@ -397,7 +387,7 @@ def cadastro_prova(request):
         context = {
             'form': form,
         }
-        return render(request, "form-prova.html", context)
+        return render(request, 'form_prova/cadastrar_prova.html', context)
 
     elif request.method == "POST":
         form = ProvaForm(request.POST, request.FILES)
@@ -413,7 +403,7 @@ def cadastro_prova(request):
 
             return redirect('/lista_prova/')
 
-        return render(request, 'form-prova.html', {'form': form})
+        return render(request, 'form_prova/cadastrar_prova.html', {'form': form})
 
 
 @login_required(login_url='/login')
@@ -424,11 +414,16 @@ def atualizar_prov(request,id):
     aux = Categoria.objects.filter(disciplina=0)
     aux2 = Questao.objects.filter(categoria=0)
 
+    busca = request.POST.get("busca")
+
     for disciplinas in professor.disciplina.all():
         ids.append(disciplinas.id)
         categorias = aux | Categoria.objects.filter(disciplina=disciplinas.id)
         for categoria_quest in categorias:
-            questoes = aux2 | Questao.objects.filter(categoria=categoria_quest.id)
+            if busca:
+                questoes = Questao.objects.filter(nome__icontains=busca)
+            else:
+                questoes = aux2 | Questao.objects.filter(categoria=categoria_quest.id)
 
 
     prova = Prova.objects.get(id=id)
@@ -441,14 +436,14 @@ def atualizar_prov(request,id):
         form.save()
         return redirect ('/lista_prova/')
 
-    return render(request, 'form-prova.html', {'form': form, 'prova': prova})
+    return render(request, 'form_prova/atualizar_prova.html', {'form': form, 'prova': prova})
 
 
 @login_required(login_url='/login')
 def lista_prova(request):
     professor = Professor.objects.get(user=request.user)
     provas = Prova.objects.filter(professor=professor)
-    return render(request, 'prova.html', {'provas': provas})
+    return render(request, 'form_prova/listar_prova.html', {'provas': provas})
 
 
 @login_required(login_url='/login')
@@ -458,7 +453,7 @@ def gerar_prova(request, id):
     #fonte = prova.configuracoes.tipo_fonte
 
     #html_string = render_to_string('prova/modelo1.html', {'prova': prova,'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
-    html_string = render_to_string('prova/modelo1.html', {'prova': prova})
+    html_string = render_to_string('modelo_prova/modelo1.html', {'prova': prova})
     print(prova.professor.nome)
     html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
     html.write_pdf(target='/tmp/{}.pdf'.format(prova))
@@ -483,23 +478,6 @@ def gerar_gabarito(request,id):
 
         print(questoes.enunciado)
         print(questoes.alternativas.all().filter(correta=True))
-        #lista_questoes.append(Questao.objects.get(id=questoes.id))
-        #alternativa_correta.append(questoes.alternativas.filter(correta = True))
-        #Gabarito.alternativa_correta.set(alternativa_correta)
-
-    #gabarito = Gabarito(prova=prova, questoes = lista_questoes, alternativa_correta = alternativa_correta)
-
-    #questao = Questao.objects.get(id=prova.questao.id)
-
-
-    #print(questao.alternativas.all())
-
-    #gabarito = Gabarito.objects.create(prova=prova,questao=questao)
-    #gabarito = Gabarito(prova=prova,questao=questao,alternativa=alternativa)
-
-    #print("\n\n", gabarito.prova.questao.enunciado,"\n\n\n")
-
-    #html_string = render_to_string('prova/gabarito.html', {'gabarito': gabarito})
 
     return redirect('/index')
 
@@ -511,7 +489,7 @@ def vizualiar_prova(request, id):
     prova = Prova.objects.get(id=id)
     tamanho = prova.configuracoes.tamanho
     fonte = prova.configuracoes.tipo_fonte
-    return render(request,'prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
+    return render(request,'modelo_prova/modelo1.html', {'prova': prova, 'tamanho':json.dumps(tamanho), 'fonte':json.dumps(fonte)})
 
 @login_required(login_url='/login')
 def deletar_prov(request,id):

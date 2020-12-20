@@ -1,0 +1,49 @@
+a{
+  text-decoration: none !important;
+}
+
+.pag-lista{
+  max-width: 95% !important;
+}
+
+.pag-lista .table{
+  margin-top: 40px;
+}
+.pag-lista .sub-menu{
+
+}
+.pag-lista .sub-menu .row .col-sm{
+  padding-left: 0px !important;
+}
+
+.pag-lista .sub-menu .row .col-sm #enviar{
+  display: none !important;
+}
+
+.pag-lista .sub-menu .row .col-sm #campo-busca{
+  width: 80% !important;
+}
+
+.pag-lista .sub-menu .row .col-sm #campo-busca i{
+  cursor: pointer;
+}
+
+.pag-lista-quest table{
+  color: #495057 !important;
+}
+
+.pag-lista table a{
+  color: #495057 !important;
+}
+
+.pag-lista tr:hover{
+  background-color: #F8F9FA;
+}
+
+.texto-info{
+  text-align: left;
+}
+.texti-titulo{
+  text-align: center;
+  font-size: 12pt;
+}

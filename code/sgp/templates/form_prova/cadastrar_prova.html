@@ -26,20 +26,13 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                   {{ form.questao }}
 
-                    <form action="" method="GET">
+                    <form action="{% url 'cadastro-prova' %}" method="GET">
                         <input type="text" name="busca" id="tags">
                         <input type="submit" value="Buscar">
                     </form>
 
-                    <div id="resultado">
-                        {% for questao in questoes %}
-                        <a class='lista_questoes' href="{% url 'atualizar_questao' questao.id %} ">
-                        {{questao.nome}}
-                        </a>
-                        {% endfor %}
-                    </div>
+                    {{ form.questao }}
 
                </div>
                <div class="modal-footer">
