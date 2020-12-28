@@ -7,6 +7,8 @@ from django.contrib.staticfiles.urls import static,staticfiles_urlpatterns
 from . import settings
 
 urlpatterns = [
+
+    path('novoform/', views.novo_form, name='novo_form'),
     path('admin/', admin.site.urls),
     path('login/',views.logar_usuario, name='login'),
     path('logout',views.deslogar_usuario, name='logout'),

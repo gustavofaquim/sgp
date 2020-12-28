@@ -1,19 +1,38 @@
 {% extends "_layouts/base.html" %}
 {% load static %}
 {% block conteudo %}
-
+<div class="container-fluid pag-questao ">
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.media }}
-        Nome: {{form.nome}} <br>
-       Enunciado: {{ form.enunciado }}
-        <br>
-        Origem: {{form.origem}} <a href="/cadastrar-origem/">+</a>
-        <br>
+        <div class="row">
+            <div class="col">
+                Nome: {{form.nome}}
+            </div>
+            <div class="origem-questao col">
+                <div class="form-row align-items-center">
+                    Origem: {{form.origem}}
+                    <a href="/cadastrar-origem/">+</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col enunciado">
+                 {{ form.enunciado }}
+            </div>
+             <div class="col">
+                Categoria: {{ form.categoria }} <a href="/cadastrar-categoria/">+</a>
+                 Sub-categoria: {{form.subcategoria}}
+                 Tag: {{form.tag}}
+            </div>
+
+
+        </div>
+
 
         {{form.professor}}
         <br>
-        Categoria: {{ form.categoria }} <a href="/cadastrar-categoria/">+</a> SubCategoria {{form.subcategoria}} <br><br>
-        Tag: {{form.tag}}
+
+
         {% if form.imagem.value.url != False %}
             <img style='width:200px' src='{{form.imagem.value.url}}' alt="">
         {% endif %}
@@ -21,29 +40,37 @@
         {{ form.imagem }}
 
 
-        {{form_alternativa.management_form }}
-        {% for fa in form_alternativa %}
-        <div class="inlineform">
-            <hr>
-            Alternativa: <br>
-            {{ fa.alternativa }} <br>
-            {{fa.letra}}
-            Está alternativa está correta ? {{ fa.correta }} <br>
-            Imagem: {{fa.imagem}} <br> <br>
+
+
+        <div class="row row-alternativas">
+            {{form_alternativa.management_form }}
+            {% for fa in form_alternativa %}
+            <div class="col">
+                <div class="inlineform">
+                    Alternativa: <br>
+                    {{ fa.alternativa }} <br>
+                    {{fa.letra}} <br>
+                    Alternativa Correta {{ fa.correta }} <br>
+                    Imagem: {{fa.imagem}} <br>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+
+
+
+
 
 
         <br> <br>
         <button type="submit">Salvar</button>
     </form>
-
+</div>
 {% endblock conteudo %}
 
 {% block scripts %}
 
     <script type="text/javascript">
-
 
       $(function() {
           $('.inlineform_texto').formset({

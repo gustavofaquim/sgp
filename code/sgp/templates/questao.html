@@ -44,7 +44,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Qnt. Alternativas</th>
-                        <th scope="col">Ação</th>
+                        <th scope="col" id="col-pequeno">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
                         <td><a href="{% url 'atualizar_questao' questao.id %}">{{questao.nome}}</a></td>
                         <td>Discursiva</td>
                         <td>4</td>
-                        <td><i class="far fa-trash-alt"></i> <a href="{% url 'atualizar_questao' questao.id %}"><i class="far fa-edit"></i></a></td>
+                        <td><i class="fas fa-times"></i> <a href="{% url 'atualizar_questao' questao.id %}"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

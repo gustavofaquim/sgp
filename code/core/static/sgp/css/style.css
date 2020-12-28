@@ -28,8 +28,12 @@ a{
   cursor: pointer;
 }
 
-.pag-lista-quest table{
+.pag-lista table{
   color: #495057 !important;
+}
+
+.pag-lista table #col-pequeno{
+  width: 10%;
 }
 
 .pag-lista table a{
@@ -40,10 +44,115 @@ a{
   background-color: #F8F9FA;
 }
 
+.pag-lista tr td i {
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-size: 12pt;
+}
+
+.pag-lista tr td i:hover{
+  padding: 8px;
+  width: 30px;
+  height: 30px;
+}
+
+.pag-lista tr td .fa-times{
+  background-color: #C82333;
+  margin-top: 10px;
+}
+
+.pag-lista tr td .fa-pencil-alt{
+  background-color: #E0A800;
+  margin-left: 10px;
+}
+
 .texto-info{
   text-align: left;
 }
 .texti-titulo{
   text-align: center;
   font-size: 12pt;
+}
+
+/*Página de perfil de usuário*/
+.pag-perfil{
+  max-width: 60% !important;
+  padding: 40px;
+}
+
+.foto-professor{text-align: center;}
+
+.foto-professor img{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+#foto-clear_id, #url-foto-professor label{display: none;}
+
+
+.pag-perfil .select-disciplina{
+  color: #495057;
+  padding: .375rem .75rem;
+  background-color: #fff;
+  list-style-type: none;
+}
+
+.pag-perfil .select-disciplina li {display: inline-block;}
+
+.pag-perfil .select-disciplina label{
+  border: 1px solid #ced4da;
+  border-radius: .10rem;
+  margin-top: 10px;
+  display: inline-block;
+  padding: .50rem;
+  text-align: center;
+}
+
+.pag-perfil .select-disciplina input[type="checkbox"]:checked{
+  background-color: red;
+}
+
+.pag-perfil .botoes{
+  color: #fff !important;
+  margin-top: 10px;
+}
+
+.pag-questao{
+  width: 90% !important;
+  padding: 10px;
+}
+
+.pag-questao .origem-questao select{
+  width: 200px;
+  height: 50px !important;
+  margin-top: 10px;
+}
+
+.pag-questao .enunciado{
+  padding: 20px;
+}
+
+.pag-questao .row-alternativas{
+  margin: auto;
+}
+
+.pag-questao .row-alternativas .col{
+
+  border-radius: 3px;
+  margin: 10px 10px 10px 10px;
+  padding: 20px;
+}
+
+.pag-prova{
+  width: 90% !important;
+  padding: 10px;
+}
+
+.pag-prova div{
+  margin-top: 10px;
 }

@@ -18,6 +18,12 @@ from .models import *
 from .form import *
 from django.http import JsonResponse
 
+
+def novo_form(request):
+    form = FormTeste(request.POST or None)
+
+    return render(request, 'forms.html', {'form':form})
+
 def logar_usuario(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -132,7 +138,7 @@ def alterar_senha(request):
             return redirect('index')
     else:
         form_senha = PasswordChangeForm(request.user)
-    return render(request, 'alterar_senha.html', {'form_senha': form_senha})
+    return render(request, 'form-professor.html', {'form_senha': form_senha})
 
 
 @login_required(login_url='/login')
@@ -426,14 +432,17 @@ def atualizar_prov(request,id):
                 questoes = aux2 | Questao.objects.filter(categoria=categoria_quest.id)
 
 
+
     prova = Prova.objects.get(id=id)
     form = ProvaForm(request.POST or None, request.FILES or None, instance=prova)
 
     form.fields["disciplina"].queryset = professor.disciplina
     form.fields["questao"].queryset = questoes
 
+
     if form.is_valid():
         form.save()
+        print("Entreiiii")
         return redirect ('/lista_prova/')
 
     return render(request, 'form_prova/atualizar_prova.html', {'form': form, 'prova': prova})

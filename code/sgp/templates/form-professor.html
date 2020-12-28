@@ -3,29 +3,129 @@
 {% block title %}Página Inicial{% endblock %}
 
 {% block conteudo %}
+<div class="container-fluid pag-perfil">
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-        {% if form.foto.value %}
-             <img style="width:200px" src="{{form.foto.value.url}}" alt="">
-        {% endif %}
 
-        <br> <br>
-        CPF: {{form.cpf}} <br> <br>
-        Nome: {{form.nome}} <br> <br>
-        E-mail: {{form.email}} <br> <br>
-        Data de Nascimento: {{form.nascimento}} <br> <br>
-        Disciplinas: <br> {{form.disciplina}} <br> <br>
-        {{form.foto}}<br> <br>
+            <div class="row">
+                <div class="col foto-professor">
+                     {% if form.foto.value %}
+                        <img src="{{form.foto.value.url}}" alt="">
+                     {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                 <div class="col" id="url-foto-professor">
+                     <div class="custom-file">
+                        {{form.foto}}
+                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                   Nome: {{form.nome}}
+                </div>
+            </div>
+
+         <div class="row">
+                <div class="col">
+                    CPF: {{form.cpf}}
+                </div>
+                <div class="col">
+                    Data de Nascimento: {{form.nascimento}}
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col">
+                E-mail: {{form.email}}
+            </div>
+
+        </div>
+
+        <div class="row">
+             <div class="col">
+                    Disciplinas:  {{form.disciplina}}
+            </div>
+        </div>
+
+       <!-- <div class="row">
+             <div class="col">
+               <buton class="btn btn-primary"><a class=" botoes" href="{% url 'alterar_senha' %}">Alterar Senha</a></buton>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col">
+               <input type="submit" class="btn btn-success botoes" value="Salvar Alterações">
+            </div>
+            <div class="col">
+                 {% if professor %}
+                    <buton class="btn btn-danger"><a class=" botoes" href="{% url 'deletar_professor' professor.cpf %}">Deletar Cadastro</a></buton>
+                 {% endif %}
+            </div>
+        </div>
+
         {{form.errors}}
 
+       <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+           Mudar senha
+        </button> -->
+
+         <!-- Modal -->
+         <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Alteração de senha</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post" action="{% url 'atualizar_professor' 2 %}">
+                    {% csrf_token %}
+
+                        <div class="form-group">
+                            {{form_senha.old_password.errors}}
+                             <label>Senha antiga: </label>
+                            {{a.old_password}}
+                        </div>
+
+                        <div class="form-group">
+                            {{form_senha.new_password1.errors}}
+                            <label>Nova senha: </label>
+                            {{form_senha.new_password1}}
+                        </div>
+
+                        <div class="form-group">
+                            {{form_senha.new_password2.errors}}
+                            <label>Confirmação de senha: </label>
+                            {{form_senha.new_password2}}
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Alterar" class="btn btn-primary">
+                        </div>
+                    </form>
 
 
-        <a href="{% url 'alterar_senha' %}">Mudar senha</a>
-        <input type="submit" value="Atualizar">
+                </div>
+
+                  <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                 <button type="button" class="btn btn-primary">Adicionar questões</button>
+               </div>
+             </div>
+        </div>
+      </div>
+
+
 
     </form>
 
-    {% if professor %}
-        <a href="{% url 'deletar_professor' professor.cpf %}">Deletar</a>
-    {% endif %}
+</div>
 {% endblock %}

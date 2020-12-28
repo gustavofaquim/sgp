@@ -2,55 +2,44 @@
 {% block title %}Página Inicial{% endblock %}
 
 {% block conteudo %}
-     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-           Nome da prova: <br> {{form.nome}} <br><br>
-           Observações: <br>{{form.observacao}} <br><br>
-           Cabeçalho:<br> {{form.cabecalho}} <a href="/cadastro_cabecalho/">+</a> <br><br>
-           Disciplina: {{form.disciplina}} <br><br>
-           Tipo: {{form.tipo}} <br><br>
+<div class="container-fluid pag-prova">
+     <form method="POST" enctype="multipart/form-data" action="{% url 'atualizar_prova' 1%}">{% csrf_token %}
+           <div class="form-row">
+               <div class="col">
+                  Nome da prova: {{form.nome}}
+               </div>
+           </div>
 
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-           Adicionar questões
-        </button>
-
-
-
-         <!-- Modal -->
-         <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Questões</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    Observações: {{form.observacao}}
                 </div>
-                <div class="modal-body">
+                <div class="form-group col-md-4">
+                    Cabeçalho:{{form.cabecalho}} <a href="/cadastro_cabecalho/">+</a>
+                </div>
+                <div class="form-group col-md-2">
+                     Tipo: {{form.tipo}}
+                </div>
 
-                    <form action="{% url 'atualizar_prova' 1 %}" method="GET">
-                        <input type="text" name="busca" id="tags">
-                        <input type="submit" value="Buscar">
-                    </form>
+                <div class="form-group col-md-2">
+                    Disciplina: {{form.disciplina}}
+                </div>
+            </div>
 
-                    {{ form.questao }}
+            <div class="form-group">
+                <form action="{% url 'atualizar_prova' 1 %}" method="GET">
+                    <input type="text" name="busca" id="tags">
+                    <input type="submit" value="Buscar">
+                </form>
+                <div class="custom-control custom-radio">
+                   {{ form.questao }}
+                </div>
 
-               </div>
-               <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                 <button type="button" class="btn btn-primary">Adicionar questões</button>
-               </div>
-             </div>
-        </div>
-      </div>
-
-
-
-
+            </div>
 
 
          <button type="submit">Salvar</button>
      </form>
-
 
     {% if questao %}
         <a href="{% url 'deletar_questao' questao.id %}">Deletar</a>
@@ -59,13 +48,11 @@
     <span id="texto"></span> <br><br>
 
     {% if prova %}
-        <a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a>
-        <a href="{% url 'gerar_prova' prova.id %}">Gerar prova</a>
-        <a href="{% url 'gerar_gabarito' prova.id %}">Gerar Gabarito</a>
-        <a href="{% url 'vizualiar_prova' prova.id %}">Vizualizar prova</a>
+        <button><a href="{% url 'deletar_prova' prova.id %}">Deletar Prova</a></button>
+        <button><a href="{% url 'gerar_prova' prova.id %}">Gerar prova</a></button>
     {% endif %}
 {% endblock %}
-
+</div>
 {% block scripts %}
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

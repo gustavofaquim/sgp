@@ -52,7 +52,7 @@ class Professor(models.Model):
     email = models.EmailField()
     nascimento = models.DateField(null=True, blank=True, verbose_name='Data de Nascimento')
     foto = models.ImageField(upload_to="professor/", null=True, blank=True)
-    disciplina = models.ManyToManyField(Disciplina, null=False, blank=False)
+    disciplina = models.ManyToManyField(Disciplina, null=False, blank=False, related_name='disciplinas')
 
     def __str__(self):
         return str(self.nome)
@@ -61,6 +61,7 @@ class Professor(models.Model):
         db_table = "professor"
         verbose_name_plural = "Professores"
 
+    
 
 class Tag(models.Model):
     tag = models.CharField(max_length=30)
